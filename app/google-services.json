@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "523008918248",
+    "firebase_url": "https://episolide.firebaseio.com",
+    "project_id": "episolide",
+    "storage_bucket": "episolide.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523008918248:android:120e1b61bad3f5e7333f5d",
+        "android_client_info": {
+          "package_name": "com.oguzhan.episolide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523008918248-30lmpivevkk2s784vrnb9mttlvst2u1q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.oguzhan.episolide",
+            "certificate_hash": "e626092671275ae7cc08b672fb998fd07bf53b66"
+          }
+        },
+        {
+          "client_id": "523008918248-muvon1vrt9nf8g256v5h91ndudcln7k7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1HjjxXdfecLPiaqpuvF845tskSkPYWrE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523008918248-muvon1vrt9nf8g256v5h91ndudcln7k7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
