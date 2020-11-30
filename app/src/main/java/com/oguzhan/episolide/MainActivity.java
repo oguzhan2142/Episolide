@@ -1,11 +1,13 @@
 package com.oguzhan.episolide;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.facebook.login.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.oguzhan.episolide.utils.Statics;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -13,6 +15,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        new StaticInitilizeTask().execute();
     }
 
     private void logOut()
@@ -48,5 +54,21 @@ public class MainActivity extends AppCompatActivity
 
         Intent intent = new Intent(getApplicationContext(), LoginFirebase.class);
         startActivity(intent);
+    }
+    private class StaticInitilizeTask extends AsyncTask<Void,Void,Void>
+    {
+
+        @Override
+        protected Void doInBackground(Void... voids)
+        {
+            try
+            {
+                Statics.initilizeArrays();
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

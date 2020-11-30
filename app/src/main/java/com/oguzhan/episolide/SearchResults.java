@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ExpandableListView;
 
@@ -34,6 +35,7 @@ public class SearchResults extends AppCompatActivity
 
     public List<String> list_parent;
     public HashMap<String, List<String>> list_child;
+    private HashMap<String, List<String>> list_child_poster_paths;
 
 
     @Override
@@ -65,7 +67,7 @@ public class SearchResults extends AppCompatActivity
         initilizeLists(); // expandablelistview içeriğini hazırlamak için
 
         // Adapter sınıfımızı oluşturmak için başlıklardan oluşan listimizi ve onlara bağlı olan elemanlarımızı oluşturmak için HaspMap türünü yolluyoruz
-        expand_adapter = new ExpandableListAdapter(getApplicationContext(), list_parent, list_child);
+        expand_adapter = new ExpandableListAdapter(getApplicationContext(), list_parent, list_child, list_child_poster_paths);
         expandlist_view.setAdapter(expand_adapter);  // oluşturduğumuz adapter sınıfını set ediyoruz
         expandlist_view.setClickable(true);
     }
@@ -81,6 +83,7 @@ public class SearchResults extends AppCompatActivity
     {
         list_parent = new ArrayList<String>();  // başlıklarımızı listemelek için oluşturduk
         list_child = new HashMap<String, List<String>>(); // başlıklara bağlı elemenları tutmak için oluşturduk
+        list_child_poster_paths = new HashMap<String, List<String>>();
 
         list_parent.add("Movies");  // ilk başlığı giriyoruz
         list_parent.add("Tv Shows");   // ikinci başlığı giriyoruz
@@ -91,8 +94,40 @@ public class SearchResults extends AppCompatActivity
         list_child.put(list_parent.get(1), getItemNames(tvShows)); // ikinci başlığımızı ve onların elemanlarını HashMap sınıfında tutuyoruz
         list_child.put(list_parent.get(2), getItemNames(persons));
 
+        list_child_poster_paths.put(list_parent.get(0), getImagePaths(movies));
+        list_child_poster_paths.put(list_parent.get(1), getImagePaths(tvShows));
+        list_child_poster_paths.put(list_parent.get(2), getImagePaths(persons));
+
+
     }
 
+
+    private List<String> getImagePaths(List<JSONObject> jsonObjects)
+    {
+        // profile_path for person
+        // poster_path for movie ve tv
+
+        List<String> list = new ArrayList<>();
+        for (JSONObject jsonObject : jsonObjects)
+        {
+            try
+            {
+                if (jsonObjects.equals(persons))
+                {
+                    list.add(jsonObject.get("profile_path").toString());
+                } else if (jsonObjects.equals(tvShows) || jsonObjects.equals(movies))
+                {
+                    list.add(jsonObject.get("poster_path").toString());
+                }
+
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
+        return list;
+    }
 
     private List<String> getItemNames(List<JSONObject> jsonObjects)
     {
@@ -152,6 +187,21 @@ public class SearchResults extends AppCompatActivity
         } catch (JSONException e)
         {
             e.printStackTrace();
+        }
+    }
+
+
+    private class PosterImagesTask extends AsyncTask<Void, Void, Void>
+    {
+
+//        profile_path for person
+//        poster_path for movie ve tv
+//        image kink https://image.tmdb.org/t/p/w1280/cZ8a3QvAnj2cgcgVL6g4XaqPzpL.jpg
+
+        @Override
+        protected Void doInBackground(Void... voids)
+        {
+            return null;
         }
     }
 }

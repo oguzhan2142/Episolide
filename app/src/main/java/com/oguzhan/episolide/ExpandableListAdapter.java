@@ -1,21 +1,28 @@
 package com.oguzhan.episolide;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.oguzhan.episolide.utils.Statics;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter
 {
 
     public List<String> list_parent;
     public HashMap<String, List<String>> list_child;
+    private HashMap<String, List<String>> poster_paths;
+
     public Context context;
     public TextView txt;
     public TextView txt_child;
@@ -28,11 +35,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
         return list_parent.size();
     }
 
-    public ExpandableListAdapter(Context context, List<String> list_parent, HashMap<String, List<String>> list_child)
+    public ExpandableListAdapter(Context context, List<String> list_parent, HashMap<String,
+            List<String>> list_child, HashMap<String, List<String>> poster_paths)
     {
         this.context = context;
         this.list_parent = list_parent;
         this.list_child = list_child;
+        this.poster_paths = poster_paths;
     }
 
     @Override
@@ -55,6 +64,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 
         return list_child.get(list_parent.get(groupPosition)).get(childPosition);
 
+    }
+
+    private String getPoster(int groupPosition, int childPosition)
+    {
+        return poster_paths.get(list_parent.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -83,6 +97,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
                              View view, ViewGroup parent)
     {
         String title_name = (String) getGroup(groupPosition);
+        int size = getChildrenCount(groupPosition);
 
         if (view == null)
         {
@@ -92,6 +107,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
 
         txt = (TextView) view.findViewById(R.id.txt_parent);
         txt.setText(title_name);
+
+        ((TextView) view.findViewById(R.id.text_parent_count)).setText(String.format(Locale.US, "(%d)", size));
+
 
         return view;
     }
@@ -111,8 +129,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
         }
 
         // listview_child ulaştığımıza göre içindeki bileşeni de kullanabiliyoruz daha sonradan view olarak return ediyoruz
-        txt_child = (TextView) view.findViewById(R.id.txt_items);
+        txt_child = (TextView) view.findViewById(R.id.item_name_text);
         txt_child.setText(txt_child_name);
+
+        ImageView itemImage = ((ImageView) view.findViewById(R.id.item_image));
+        String posterURL = Statics.BASE_IMAGE_URL + Statics.BACKDROP_SIZES[0] + getPoster(groupPosition, childPosition);
+        Log.d("pos", posterURL);
+        Picasso.get().load(posterURL).into(itemImage);
+
+
         return view;
     }
 

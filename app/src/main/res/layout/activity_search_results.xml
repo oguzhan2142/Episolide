@@ -18,6 +18,13 @@
         android:id="@+id/expand_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
+        android:divider="@color/fui_transparent"
+        android:layout_margin="10dp"
+        android:paddingVertical="4dp"
+        android:dividerHeight="0.4dp"
+        android:childDivider="@color/primary_color"
+
         >
 
     </ExpandableListView>
