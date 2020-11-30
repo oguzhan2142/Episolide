@@ -3,7 +3,6 @@ package com.oguzhan.episolide.ui.home;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,17 +16,11 @@ import androidx.fragment.app.Fragment;
 
 import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.SearchResults;
-import com.oguzhan.episolide.utils.Statics;
 import com.oguzhan.episolide.utils.JsonReader;
 import com.oguzhan.episolide.utils.Keyboard;
+import com.oguzhan.episolide.utils.Statics;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment
 {
@@ -86,10 +79,11 @@ public class HomeFragment extends Fragment
         Keyboard.hideKeyboard(getActivity());
     }
 
-    private void go(JSONObject searchResultRoot)
+    private void go(String searchResultsRoot)
     {
         Intent intent = new Intent(getActivity(), SearchResults.class);
-        intent.putExtra(SEARCH_RESULTS_TAG, new Results(searchResultRoot));
+
+        intent.putExtra(SEARCH_RESULTS_TAG, searchResultsRoot);
         startActivity(intent);
     }
 
@@ -106,13 +100,10 @@ public class HomeFragment extends Fragment
         @Override
         protected void onPostExecute(JSONObject jsonObject)
         {
-            Log.d("d", jsonObject.toString());
-
-            go(jsonObject);
+            go(jsonObject.toString());
             super.onPostExecute(jsonObject);
         }
     }
-
 
 
 }
