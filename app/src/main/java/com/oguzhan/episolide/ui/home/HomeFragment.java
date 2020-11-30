@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +21,8 @@ import com.oguzhan.episolide.utils.JsonReader;
 import com.oguzhan.episolide.utils.Keyboard;
 import com.oguzhan.episolide.utils.Statics;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HomeFragment extends Fragment
@@ -30,6 +33,8 @@ public class HomeFragment extends Fragment
     private String searchUrl = "https://api.themoviedb.org/3/search/multi?api_key=ee637fe7f604d38049e71cb513a8a04d&language=%s&query=%s&include_adult=true";
     private EditText editText;
     private ImageButton search_btn;
+
+    private boolean searching = false;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
@@ -73,6 +78,9 @@ public class HomeFragment extends Fragment
 
     private void doSearch()
     {
+        if (searching)
+            return;
+        searching = true;
         String query = editText.getText().toString();
         String url = String.format(searchUrl, Statics.ENGLISH, query);
         new SearchTask().execute(url);
@@ -100,6 +108,22 @@ public class HomeFragment extends Fragment
         @Override
         protected void onPostExecute(JSONObject jsonObject)
         {
+            searching = false;
+            if (jsonObject == null)
+                return;
+            try
+            {
+                JSONArray searchResultsArray = jsonObject.getJSONArray("results");
+                if (searchResultsArray.length() == 0)
+                {
+                    Toast.makeText(getContext(), "Sonuc Bulunamadi", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
             go(jsonObject.toString());
             super.onPostExecute(jsonObject);
         }
