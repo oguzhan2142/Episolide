@@ -1,7 +1,9 @@
 package com.oguzhan.episolide.ui.home;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,11 +14,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.SearchResults;
@@ -129,7 +135,7 @@ public class HomeFragment extends Fragment
 
     private class KeyboardTask extends AsyncTask<String, String, JSONObject>
     {
-        private final int MAX_TAKABLE_RESULTS = 18;
+        private final int MAX_TAKABLE_RESULTS = 10;
         private WeakReference<List<String>> movies;
         private WeakReference<List<String>> tvShows;
         private WeakReference<List<String>> persons;
@@ -148,6 +154,7 @@ public class HomeFragment extends Fragment
 
             return JsonReader.readJsonFromUrl(strings[0]);
         }
+
 
         @Override
         protected void onPostExecute(JSONObject s)
@@ -194,6 +201,14 @@ public class HomeFragment extends Fragment
                 Log.d("tvShows", tvShows.get().toString());
                 Log.d("persons", persons.get().toString());
 
+                RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.resycle_view);
+
+                myAdapter productAdapter = new myAdapter(getContext(), movies.get());
+                recyclerView.setAdapter(productAdapter);
+
+//                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+
+
             } catch (JSONException e)
             {
                 e.printStackTrace();
@@ -201,6 +216,73 @@ public class HomeFragment extends Fragment
             super.onPostExecute(s);
         }
 
+    }
+
+    private class myAdapter extends RecyclerView.Adapter<myAdapter.MyViewHolder>
+    {
+
+        List<String> mProductList;
+        LayoutInflater inflater;
+
+        public myAdapter(Context context, List<String> products)
+        {
+            inflater = LayoutInflater.from(context);
+            this.mProductList = products;
+        }
+
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            View view = inflater.inflate(R.layout.search_suggestion_item, parent, false);
+            MyViewHolder holder = new MyViewHolder(view);
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder holder, int position)
+        {
+            String selectedProduct = mProductList.get(position);
+            holder.setData(selectedProduct, position);
+
+        }
+
+        @Override
+        public int getItemCount()
+        {
+            return mProductList.size();
+        }
+
+
+        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
+        {
+
+            TextView textView;
+
+            public MyViewHolder(View itemView)
+            {
+                super(itemView);
+                textView = (TextView) itemView.findViewById(R.id.suggestion_item_text);
+
+
+            }
+
+            public void setData(String selectedProduct, int position)
+            {
+                this.textView.setText(selectedProduct);
+
+            }
+
+
+            @Override
+            public void onClick(View v)
+            {
+
+
+            }
+
+
+        }
     }
 
     private class SearchTask extends AsyncTask<String, Void, JSONObject>
