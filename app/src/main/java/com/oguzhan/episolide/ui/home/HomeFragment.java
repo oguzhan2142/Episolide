@@ -1,9 +1,7 @@
 package com.oguzhan.episolide.ui.home;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,14 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.oguzhan.episolide.R;
@@ -97,8 +91,15 @@ public class HomeFragment extends Fragment
             @Override
             public void afterTextChanged(Editable s)
             {
+                if (s.length() == 0)
+                {
+                    RecyclerView recyclerView = view.findViewById(R.id.resycle_view);
+                    recyclerView.removeAllViews();
+                    return;
+                }
+
                 String url = String.format(searchUrl, Statics.ENGLISH, s);
-                new KeyboardTask().execute(url);
+                new SearchTask(getView()).execute(url);
             }
         });
 
@@ -121,7 +122,7 @@ public class HomeFragment extends Fragment
         searching = true;
         String query = editText.getText().toString();
         String url = String.format(searchUrl, Statics.ENGLISH, query);
-        new SearchTask().execute(url);
+        // Burada search task calisiyordu.
         Keyboard.hideKeyboard(getActivity());
     }
 
@@ -133,190 +134,6 @@ public class HomeFragment extends Fragment
     }
 
 
-    private class KeyboardTask extends AsyncTask<String, String, JSONObject>
-    {
-        private final int MAX_TAKABLE_RESULTS = 10;
-        private WeakReference<List<String>> movies;
-        private WeakReference<List<String>> tvShows;
-        private WeakReference<List<String>> persons;
-
-
-        public KeyboardTask()
-        {
-            movies = new WeakReference<>(new ArrayList<>());
-            tvShows = new WeakReference<>(new ArrayList<>());
-            persons = new WeakReference<>(new ArrayList<>());
-        }
-
-        @Override
-        protected JSONObject doInBackground(String... strings)
-        {
-
-            return JsonReader.readJsonFromUrl(strings[0]);
-        }
-
-
-        @Override
-        protected void onPostExecute(JSONObject s)
-        {
-            try
-            {
-                /*
-                 * KEYS from movieDb
-                 * movie title
-                 * tv name
-                 * person name
-                 */
-
-                JSONArray results = s.getJSONArray("results");
-
-                for (int i = 0; i < results.length(); i++)
-                {
-                    if (i == MAX_TAKABLE_RESULTS)
-                        break;
-
-                    JSONObject result = results.getJSONObject(i);
-
-                    String mediaType = result.get("media_type").toString();
-
-                    if (mediaType.equals("person"))
-                    {
-                        String personName = result.get("name").toString();
-                        if (!persons.get().contains(personName))
-                            persons.get().add(personName);
-                    } else if (mediaType.equals("tv"))
-                    {
-                        String tvShowName = result.get("name").toString();
-                        if (!tvShows.get().contains(tvShowName))
-                            tvShows.get().add(tvShowName);
-                    } else if (mediaType.equals("movie"))
-                    {
-                        String movieName = result.get("title").toString();
-                        if (!movies.get().contains(movieName))
-                            movies.get().add(movieName);
-                    }
-                }
-
-                Log.d("films", movies.get().toString());
-                Log.d("tvShows", tvShows.get().toString());
-                Log.d("persons", persons.get().toString());
-
-                RecyclerView recyclerView = (RecyclerView) getView().findViewById(R.id.resycle_view);
-
-                myAdapter productAdapter = new myAdapter(getContext(), movies.get());
-                recyclerView.setAdapter(productAdapter);
-
-//                recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-
-
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-            super.onPostExecute(s);
-        }
-
-    }
-
-    private class myAdapter extends RecyclerView.Adapter<myAdapter.MyViewHolder>
-    {
-
-        List<String> mProductList;
-        LayoutInflater inflater;
-
-        public myAdapter(Context context, List<String> products)
-        {
-            inflater = LayoutInflater.from(context);
-            this.mProductList = products;
-        }
-
-
-        @Override
-        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-        {
-            View view = inflater.inflate(R.layout.search_suggestion_item, parent, false);
-            MyViewHolder holder = new MyViewHolder(view);
-            return holder;
-        }
-
-        @Override
-        public void onBindViewHolder(MyViewHolder holder, int position)
-        {
-            String selectedProduct = mProductList.get(position);
-            holder.setData(selectedProduct, position);
-
-        }
-
-        @Override
-        public int getItemCount()
-        {
-            return mProductList.size();
-        }
-
-
-        class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-        {
-
-            TextView textView;
-
-            public MyViewHolder(View itemView)
-            {
-                super(itemView);
-                textView = (TextView) itemView.findViewById(R.id.suggestion_item_text);
-
-
-            }
-
-            public void setData(String selectedProduct, int position)
-            {
-                this.textView.setText(selectedProduct);
-
-            }
-
-
-            @Override
-            public void onClick(View v)
-            {
-
-
-            }
-
-
-        }
-    }
-
-    private class SearchTask extends AsyncTask<String, Void, JSONObject>
-    {
-
-        @Override
-        protected JSONObject doInBackground(String... strings)
-        {
-            return JsonReader.readJsonFromUrl(strings[0]);
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject jsonObject)
-        {
-            searching = false;
-            if (jsonObject == null)
-                return;
-            try
-            {
-                JSONArray results = jsonObject.getJSONArray("results");
-                if (results.length() == 0)
-                {
-                    Toast.makeText(getContext(), "Sonuc Bulunamadi", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-            goSearchResultsActivity(jsonObject.toString());
-            super.onPostExecute(jsonObject);
-        }
-    }
 
 
 }

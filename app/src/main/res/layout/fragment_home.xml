@@ -10,21 +10,19 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/resycle_view"
-
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:columnCount="3"
-        android:orientation="horizontal"
         android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginBottom="10dp"
+        android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="5"
-
         app:layout_constraintBottom_toTopOf="@+id/search_edit_text_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:reverseLayout="true"
+        app:spanCount="2">
 
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -69,4 +67,18 @@
 
         </ImageButton>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/episolide_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="44dp"
+        android:text="EPISOLIDE"
+        android:textColor="@color/primary_color"
+        android:textStyle="italic|bold"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
