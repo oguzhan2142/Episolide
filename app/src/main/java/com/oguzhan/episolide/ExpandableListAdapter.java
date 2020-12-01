@@ -133,7 +133,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter
         txt_child.setText(txt_child_name);
 
         ImageView itemImage = ((ImageView) view.findViewById(R.id.item_image));
-        String posterURL = Statics.BASE_IMAGE_URL + Statics.BACKDROP_SIZES[0] + getPoster(groupPosition, childPosition);
+        String posterURL = Statics.BASE_IMAGE_URL + Statics.POSTER_SIZES[2] + getPoster(groupPosition, childPosition);
         Log.d("pos", posterURL);
         Picasso.get().load(posterURL).into(itemImage);
 

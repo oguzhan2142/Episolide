@@ -30,7 +30,7 @@ public class Statics
         JSONObject images = Objects.requireNonNull(jsonObject).getJSONObject("images");
 
         // base_url
-        BASE_IMAGE_URL = Objects.requireNonNull(images).get("base_url").toString();
+        BASE_IMAGE_URL = Objects.requireNonNull(images).get("secure_base_url").toString();
 
         // backdrop_sizes
         JSONArray backdropSizes = Objects.requireNonNull(images).getJSONArray("backdrop_sizes");

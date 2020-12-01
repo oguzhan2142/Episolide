@@ -3,6 +3,9 @@ package com.oguzhan.episolide.ui.home;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,10 @@ import com.oguzhan.episolide.utils.Statics;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HomeFragment extends Fragment
 {
@@ -65,6 +72,31 @@ public class HomeFragment extends Fragment
             }
         });
 
+
+        editText.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                String url = String.format(searchUrl, Statics.ENGLISH, s);
+                new KeyboardTask().execute(url);
+            }
+        });
+
+
         search_btn.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -87,14 +119,89 @@ public class HomeFragment extends Fragment
         Keyboard.hideKeyboard(getActivity());
     }
 
-    private void go(String searchResultsRoot)
+    private void goSearchResultsActivity(String jsonDataToTransfer)
     {
         Intent intent = new Intent(getActivity(), SearchResults.class);
-
-        intent.putExtra(SEARCH_RESULTS_TAG, searchResultsRoot);
+        intent.putExtra(SEARCH_RESULTS_TAG, jsonDataToTransfer);
         startActivity(intent);
     }
 
+
+    private class KeyboardTask extends AsyncTask<String, String, JSONObject>
+    {
+        private final int MAX_TAKABLE_RESULTS = 18;
+        private WeakReference<List<String>> movies;
+        private WeakReference<List<String>> tvShows;
+        private WeakReference<List<String>> persons;
+
+
+        public KeyboardTask()
+        {
+            movies = new WeakReference<>(new ArrayList<>());
+            tvShows = new WeakReference<>(new ArrayList<>());
+            persons = new WeakReference<>(new ArrayList<>());
+        }
+
+        @Override
+        protected JSONObject doInBackground(String... strings)
+        {
+
+            return JsonReader.readJsonFromUrl(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject s)
+        {
+            try
+            {
+                /*
+                 * KEYS from movieDb
+                 * movie title
+                 * tv name
+                 * person name
+                 */
+
+                JSONArray results = s.getJSONArray("results");
+
+                for (int i = 0; i < results.length(); i++)
+                {
+                    if (i == MAX_TAKABLE_RESULTS)
+                        break;
+
+                    JSONObject result = results.getJSONObject(i);
+
+                    String mediaType = result.get("media_type").toString();
+
+                    if (mediaType.equals("person"))
+                    {
+                        String personName = result.get("name").toString();
+                        if (!persons.get().contains(personName))
+                            persons.get().add(personName);
+                    } else if (mediaType.equals("tv"))
+                    {
+                        String tvShowName = result.get("name").toString();
+                        if (!tvShows.get().contains(tvShowName))
+                            tvShows.get().add(tvShowName);
+                    } else if (mediaType.equals("movie"))
+                    {
+                        String movieName = result.get("title").toString();
+                        if (!movies.get().contains(movieName))
+                            movies.get().add(movieName);
+                    }
+                }
+
+                Log.d("films", movies.get().toString());
+                Log.d("tvShows", tvShows.get().toString());
+                Log.d("persons", persons.get().toString());
+
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            super.onPostExecute(s);
+        }
+
+    }
 
     private class SearchTask extends AsyncTask<String, Void, JSONObject>
     {
@@ -113,8 +220,8 @@ public class HomeFragment extends Fragment
                 return;
             try
             {
-                JSONArray searchResultsArray = jsonObject.getJSONArray("results");
-                if (searchResultsArray.length() == 0)
+                JSONArray results = jsonObject.getJSONArray("results");
+                if (results.length() == 0)
                 {
                     Toast.makeText(getContext(), "Sonuc Bulunamadi", Toast.LENGTH_SHORT).show();
                     return;
@@ -124,7 +231,7 @@ public class HomeFragment extends Fragment
             {
                 e.printStackTrace();
             }
-            go(jsonObject.toString());
+            goSearchResultsActivity(jsonObject.toString());
             super.onPostExecute(jsonObject);
         }
     }
