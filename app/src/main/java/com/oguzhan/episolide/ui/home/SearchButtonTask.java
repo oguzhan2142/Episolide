@@ -1,6 +1,7 @@
 package com.oguzhan.episolide.ui.home;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 
 import com.oguzhan.episolide.utils.JsonReader;
 
@@ -13,13 +14,13 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
 
 
     private final WeakReference<HomeFragment> homeFragmentWeakReference;
-
-    private final WeakReference<HashMap<String, String>> datasWeakReferance;
+    private final WeakReference<Bundle> bundleWeakReference;
 
     public SearchButtonTask(HomeFragment homeFragment)
     {
         homeFragmentWeakReference = new WeakReference<>(homeFragment);
-        datasWeakReferance = new WeakReference<>(new HashMap<>());
+
+        bundleWeakReference = new WeakReference<>(new Bundle());
     }
 
     @Override
@@ -34,9 +35,14 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
         String tvShows = Objects.requireNonNull(JsonReader.readJsonFromUrl(tvShowUrl)).toString();
         String persons = Objects.requireNonNull(JsonReader.readJsonFromUrl(personUrl)).toString();
 
-        datasWeakReferance.get().put("movies", movies);
-        datasWeakReferance.get().put("tvShows", tvShows);
-        datasWeakReferance.get().put("persons", persons);
+
+
+        bundleWeakReference.get().putString("movie_url", movieUrl);
+        bundleWeakReference.get().putString("movie_results", movies);
+        bundleWeakReference.get().putString("tv_show_url", tvShowUrl);
+        bundleWeakReference.get().putString("tv_show_results", tvShows);
+        bundleWeakReference.get().putString("person_url", personUrl);
+        bundleWeakReference.get().putString("person_results", persons);
 
 
         return null;
@@ -46,7 +52,8 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
     @Override
     protected void onPostExecute(Void aVoid)
     {
-        homeFragmentWeakReference.get().goSearchResultsActivity(datasWeakReferance.get());
+        homeFragmentWeakReference.get().goSearchResultsActivity(bundleWeakReference.get());
+        homeFragmentWeakReference.get().setSearching(false);
         super.onPostExecute(aVoid);
     }
 }

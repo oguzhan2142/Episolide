@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.oguzhan.episolide.R;
-import com.oguzhan.episolide.SearchResults;
+import com.oguzhan.episolide.ui.home.results.SearchResultsCardsActivity;
 import com.oguzhan.episolide.utils.Keyboard;
 import com.oguzhan.episolide.utils.Statics;
 
@@ -117,7 +117,7 @@ public class HomeFragment extends Fragment
             return;
         searching = true;
         String query = editText.getText().toString();
-        String url = String.format(MULTI_SEARCH_TEMPLATE, Statics.ENGLISH, query);
+
         // Burada search task calisiyordu.
 
         String movieUrl = String.format(MOVIE_SEARCH_TEMPLATE, Statics.ENGLISH, query);
@@ -125,18 +125,20 @@ public class HomeFragment extends Fragment
         String personUrl = String.format(PEOPLE_SEARCH_TEMPLATE, Statics.ENGLISH, query);
 
         new SearchButtonTask(this).execute(movieUrl, tvShowUrl, personUrl);
-        new KeyboardSearchTask(getView()).execute(url);
+
         Keyboard.hideKeyboard(getActivity());
     }
 
-    public void goSearchResultsActivity(HashMap<String,String> datas)
+    public void goSearchResultsActivity(Bundle dataBundle)
     {
-        Intent intent = new Intent(getActivity(), SearchResults.class);
-        intent.putExtra(MOVIE_TAG, datas.get("movies"));
-        intent.putExtra(TV_SHOW_TAG, datas.get("tvShows"));
-        intent.putExtra(PERSON_TAG, datas.get("persons"));
+        Intent intent = new Intent(getActivity(), SearchResultsCardsActivity.class);
+        intent.putExtras(dataBundle);
         startActivity(intent);
     }
 
+    public void setSearching(boolean searching)
+    {
+        this.searching = searching;
+    }
 
 }
