@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 
-public class SearchTask extends AsyncTask<String, String, JSONObject>
+public class KeyboardSearchTask extends AsyncTask<String, String, JSONObject>
 {
     private final int MAX_TAKABLE_RESULTS = 10;
 
@@ -22,7 +22,7 @@ public class SearchTask extends AsyncTask<String, String, JSONObject>
     private WeakReference<View> viewWeakReference;
 
 
-    public SearchTask(View view)
+    public KeyboardSearchTask(View view)
     {
         this.viewWeakReference = new WeakReference<>(view);
 

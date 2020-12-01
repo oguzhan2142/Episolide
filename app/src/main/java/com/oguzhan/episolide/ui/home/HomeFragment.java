@@ -21,12 +21,20 @@ import com.oguzhan.episolide.SearchResults;
 import com.oguzhan.episolide.utils.Keyboard;
 import com.oguzhan.episolide.utils.Statics;
 
+import java.util.HashMap;
+
 public class HomeFragment extends Fragment
 {
 
-    public static final String SEARCH_RESULTS_TAG = "SEARCH_RESULTS";
+    public static final String PERSON_TAG = "PERSON";
+    public static final String TV_SHOW_TAG = "TV_SHOW";
+    public static final String MOVIE_TAG = "MOVIE";
 
-    private String searchUrl = "https://api.themoviedb.org/3/search/multi?api_key=ee637fe7f604d38049e71cb513a8a04d&language=%s&query=%s&include_adult=true";
+    private final String MULTI_SEARCH_TEMPLATE = "https://api.themoviedb.org/3/search/multi?api_key=ee637fe7f604d38049e71cb513a8a04d&language=%s&query=%s&include_adult=true";
+    private final String PEOPLE_SEARCH_TEMPLATE = "https://api.themoviedb.org/3/search/person?api_key=ee637fe7f604d38049e71cb513a8a04d&language=%s&query=%s";
+    private final String TV_SHOW_SEARCH_TEMPLATE = "https://api.themoviedb.org/3/search/tv?api_key=ee637fe7f604d38049e71cb513a8a04d&language=%s&query=%s";
+    private final String MOVIE_SEARCH_TEMPLATE = "https://api.themoviedb.org/3/search/movie?api_key=ee637fe7f604d38049e71cb513a8a04d&language=%s&query=%s";
+
     private EditText editText;
     private ImageButton search_btn;
 
@@ -67,7 +75,6 @@ public class HomeFragment extends Fragment
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after)
             {
-
             }
 
             @Override
@@ -87,8 +94,8 @@ public class HomeFragment extends Fragment
                     return;
                 }
 
-                String url = String.format(searchUrl, Statics.ENGLISH, s);
-                new SearchTask(getView()).execute(url);
+                String url = String.format(MULTI_SEARCH_TEMPLATE, Statics.ENGLISH, s);
+                new KeyboardSearchTask(getView()).execute(url);
             }
         });
 
@@ -110,16 +117,24 @@ public class HomeFragment extends Fragment
             return;
         searching = true;
         String query = editText.getText().toString();
-        String url = String.format(searchUrl, Statics.ENGLISH, query);
+        String url = String.format(MULTI_SEARCH_TEMPLATE, Statics.ENGLISH, query);
         // Burada search task calisiyordu.
-        new SearchTask(getView()).execute(url);
+
+        String movieUrl = String.format(MOVIE_SEARCH_TEMPLATE, Statics.ENGLISH, query);
+        String tvShowUrl = String.format(TV_SHOW_SEARCH_TEMPLATE, Statics.ENGLISH, query);
+        String personUrl = String.format(PEOPLE_SEARCH_TEMPLATE, Statics.ENGLISH, query);
+
+        new SearchButtonTask(this).execute(movieUrl, tvShowUrl, personUrl);
+        new KeyboardSearchTask(getView()).execute(url);
         Keyboard.hideKeyboard(getActivity());
     }
 
-    private void goSearchResultsActivity(String jsonDataToTransfer)
+    public void goSearchResultsActivity(HashMap<String,String> datas)
     {
         Intent intent = new Intent(getActivity(), SearchResults.class);
-        intent.putExtra(SEARCH_RESULTS_TAG, jsonDataToTransfer);
+        intent.putExtra(MOVIE_TAG, datas.get("movies"));
+        intent.putExtra(TV_SHOW_TAG, datas.get("tvShows"));
+        intent.putExtra(PERSON_TAG, datas.get("persons"));
         startActivity(intent);
     }
 

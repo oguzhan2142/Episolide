@@ -1,22 +1,20 @@
 package com.oguzhan.episolide;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.widget.ExpandableListView;
+import androidx.cardview.widget.CardView;
 
 import com.oguzhan.episolide.ui.home.HomeFragment;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 public class SearchResults extends AppCompatActivity
@@ -25,17 +23,9 @@ public class SearchResults extends AppCompatActivity
     public final String TV_SHOW_TAG = "tv"; // key : media_type
     public final String MOVIE_TAG = "movie"; // key : media_type
 
-    public List<JSONObject> persons = new ArrayList<>();
-    public List<JSONObject> tvShows = new ArrayList<>();
-    public List<JSONObject> movies = new ArrayList<>();
-
-    private ExpandableListView expandlist_view;
-    private ExpandableListAdapter expand_adapter;
-
-
-    public List<String> list_parent;
-    public HashMap<String, List<String>> list_child;
-    private HashMap<String, List<String>> list_child_poster_paths;
+    private JSONObject moviesResult;
+    private JSONObject tvShowsResult;
+    private JSONObject personsResult;
 
 
     @Override
@@ -50,26 +40,54 @@ public class SearchResults extends AppCompatActivity
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        Intent i = getIntent();
-        String results = i.getStringExtra(HomeFragment.SEARCH_RESULTS_TAG);
+
+        CardView moviesCardView = findViewById(R.id.movies_card);
+        moviesCardView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Log.d("TAG", "onClick: movies");
+            }
+        });
+
+
+        CardView tvShowsCardView = findViewById(R.id.tv_shows_card);
+        tvShowsCardView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Log.d("TAG", "onClick: tvshows");
+            }
+        });
+
+        CardView peopleCardView = findViewById(R.id.people_card);
+        peopleCardView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Log.d("TAG", "onClick: people");
+            }
+        });
 
         try
         {
-            JSONObject resultsJson = new JSONObject(results);
-            seperateJsonObjects(resultsJson);
+            Intent i = getIntent();
+            moviesResult = new JSONObject(i.getStringExtra(HomeFragment.MOVIE_TAG));
+            tvShowsResult = new JSONObject(i.getStringExtra(HomeFragment.TV_SHOW_TAG));
+            personsResult = new JSONObject(i.getStringExtra(HomeFragment.PERSON_TAG));
+
+            setResultText(moviesResult, R.id.movies_results_amount_text);
+            setResultText(tvShowsResult, R.id.tv_shows_results_amount_text);
+            setResultText(personsResult, R.id.people_results_amount_text);
         } catch (JSONException e)
         {
             e.printStackTrace();
         }
 
 
-        expandlist_view = (ExpandableListView) findViewById(R.id.expand_listview);
-        initilizeLists(); // expandablelistview içeriğini hazırlamak için
-
-        // Adapter sınıfımızı oluşturmak için başlıklardan oluşan listimizi ve onlara bağlı olan elemanlarımızı oluşturmak için HaspMap türünü yolluyoruz
-        expand_adapter = new ExpandableListAdapter(getApplicationContext(), list_parent, list_child, list_child_poster_paths);
-        expandlist_view.setAdapter(expand_adapter);  // oluşturduğumuz adapter sınıfını set ediyoruz
-        expandlist_view.setClickable(true);
     }
 
     @Override
@@ -79,129 +97,22 @@ public class SearchResults extends AppCompatActivity
         return true;
     }
 
-    public void initilizeLists()
-    {
-        list_parent = new ArrayList<String>();  // başlıklarımızı listemelek için oluşturduk
-        list_child = new HashMap<String, List<String>>(); // başlıklara bağlı elemenları tutmak için oluşturduk
-        list_child_poster_paths = new HashMap<String, List<String>>();
 
-        list_parent.add("Movies");  // ilk başlığı giriyoruz
-        list_parent.add("Tv Shows");   // ikinci başlığı giriyoruz
-        list_parent.add("Persons");
-
-
-        list_child.put(list_parent.get(0), getItemNames(movies)); // ilk başlığımızı ve onların elemanlarını HashMap sınıfında tutuyoruz
-        list_child.put(list_parent.get(1), getItemNames(tvShows)); // ikinci başlığımızı ve onların elemanlarını HashMap sınıfında tutuyoruz
-        list_child.put(list_parent.get(2), getItemNames(persons));
-
-        list_child_poster_paths.put(list_parent.get(0), getImagePaths(movies));
-        list_child_poster_paths.put(list_parent.get(1), getImagePaths(tvShows));
-        list_child_poster_paths.put(list_parent.get(2), getImagePaths(persons));
-
-
-    }
-
-
-    private List<String> getImagePaths(List<JSONObject> jsonObjects)
-    {
-        // profile_path for person
-        // poster_path for movie ve tv
-
-        List<String> list = new ArrayList<>();
-        for (JSONObject jsonObject : jsonObjects)
-        {
-            try
-            {
-                if (jsonObjects.equals(persons))
-                {
-                    list.add(jsonObject.get("profile_path").toString());
-                } else if (jsonObjects.equals(tvShows) || jsonObjects.equals(movies))
-                {
-                    list.add(jsonObject.get("poster_path").toString());
-                }
-
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        return list;
-    }
-
-    private List<String> getItemNames(List<JSONObject> jsonObjects)
-    {
-        // movie title
-        // person ve tv'de name
-
-        List<String> list = new ArrayList<>();
-        for (JSONObject jsonObject : jsonObjects)
-        {
-            try
-            {
-                if (jsonObjects.equals(movies))
-                {
-                    list.add(jsonObject.get("title").toString());
-                } else if (jsonObjects.equals(tvShows) || jsonObjects.equals(persons))
-                {
-                    list.add(jsonObject.get("name").toString());
-                }
-
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-        }
-
-        return list;
-    }
-
-    private void seperateJsonObjects(JSONObject searchResultRoot)
+    private void setResultText(JSONObject data, int textCardId)
     {
 
-
+        TextView textView = findViewById(textCardId);
         try
         {
-            JSONArray results = searchResultRoot.getJSONArray("results");
-
-
-            for (int i = 0; i < results.length(); i++)
-            {
-                try
-                {
-                    JSONObject result = results.getJSONObject(i);
-
-                    if (result.get("media_type").toString().trim().equals(PERSON_TAG))
-                        persons.add(result);
-                    else if (result.get("media_type").toString().trim().equals(TV_SHOW_TAG))
-                        tvShows.add(result);
-                    else if (result.get("media_type").toString().trim().equals(MOVIE_TAG))
-                        movies.add(result);
-
-                } catch (JSONException e)
-                {
-                    e.printStackTrace();
-                }
-
-            }
+            int totalResults = data.getInt("total_results");
+            textView.setText(String.format("(%s)", totalResults));
         } catch (JSONException e)
         {
             e.printStackTrace();
         }
+
+
     }
 
 
-    private class PosterImagesTask extends AsyncTask<Void, Void, Void>
-    {
-
-//        profile_path for person
-//        poster_path for movie ve tv
-//        image kink https://image.tmdb.org/t/p/w1280/cZ8a3QvAnj2cgcgVL6g4XaqPzpL.jpg
-
-        @Override
-        protected Void doInBackground(Void... voids)
-        {
-            return null;
-        }
-    }
 }
