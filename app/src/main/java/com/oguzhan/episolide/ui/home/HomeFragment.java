@@ -1,11 +1,9 @@
 package com.oguzhan.episolide.ui.home;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.SearchResults;
-import com.oguzhan.episolide.utils.JsonReader;
 import com.oguzhan.episolide.utils.Keyboard;
 import com.oguzhan.episolide.utils.Statics;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 public class HomeFragment extends Fragment
 {
@@ -94,7 +83,7 @@ public class HomeFragment extends Fragment
                 if (s.length() == 0)
                 {
                     RecyclerView recyclerView = view.findViewById(R.id.resycle_view);
-                    recyclerView.removeAllViews();
+                    recyclerView.setAdapter(null);
                     return;
                 }
 
@@ -123,6 +112,7 @@ public class HomeFragment extends Fragment
         String query = editText.getText().toString();
         String url = String.format(searchUrl, Statics.ENGLISH, query);
         // Burada search task calisiyordu.
+        new SearchTask(getView()).execute(url);
         Keyboard.hideKeyboard(getActivity());
     }
 
@@ -132,8 +122,6 @@ public class HomeFragment extends Fragment
         intent.putExtra(SEARCH_RESULTS_TAG, jsonDataToTransfer);
         startActivity(intent);
     }
-
-
 
 
 }

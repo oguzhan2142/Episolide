@@ -15,6 +15,8 @@ public class Statics
     public static String BASE_IMAGE_URL;
 
 
+
+
     public static String[] BACKDROP_SIZES;
     public static String[] POSTER_SIZES;
     public static String[] PROFILE_SIZES;

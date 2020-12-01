@@ -12,7 +12,6 @@
         android:id="@+id/resycle_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="?attr/actionBarSize"
         android:layout_marginBottom="10dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"

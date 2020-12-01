@@ -1,31 +1,37 @@
 package com.oguzhan.episolide.ui.home;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.oguzhan.episolide.R;
 
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder>
 {
 
-    List<String> strings;
+    JSONArray results;
     LayoutInflater inflater;
 
-    public RecyclerAdapter(Context context, List<String> strings)
+    public RecyclerAdapter(Context context, JSONArray results)
     {
         inflater = LayoutInflater.from(context);
-        this.strings = strings;
+        this.results = results;
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
     {
@@ -34,18 +40,67 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         return holder;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position)
     {
-        String selectedProduct = strings.get(position);
-        holder.setData(selectedProduct, position);
+        /*
+         * KEYS from movieDb
+         * movie title
+         * tv name
+         * person name
+         */
+
+        holder.itemView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+
+                /*
+                *
+                * BURADAN ILGILI SAYFAYA GIDECEGIZ
+                *
+                * */
+            }
+        });
+
+        try
+        {
+            String mediaType = results.getJSONObject(position).get("media_type").toString();
+            String name = "";
+            if (mediaType.equals("person"))
+            {
+                name = results.getJSONObject(position).get("name").toString();
+                int gender = results.getJSONObject(position).getInt("gender");
+
+                int drawable = gender == 1 ? R.drawable.woman : R.drawable.male;
+                holder.setDrawable(drawable, position);
+
+            } else if (mediaType.equals("tv"))
+            {
+                name = results.getJSONObject(position).get("name").toString();
+                holder.setDrawable(R.drawable.tv_show, position);
+            } else if (mediaType.equals("movie"))
+            {
+                name = results.getJSONObject(position).get("title").toString();
+                holder.setDrawable(R.drawable.movie, position);
+            }
+
+            holder.setData(name, position);
+
+
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public int getItemCount()
     {
-        return strings.size();
+        return results.length();
     }
 
 
@@ -54,18 +109,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         TextView textView;
 
+
         public MyViewHolder(View itemView)
         {
             super(itemView);
             textView = (TextView) itemView.findViewById(R.id.suggestion_item_text);
+        }
 
+        public void setData(String name, int position)
+        {
+            this.textView.setText(name);
 
         }
 
-        public void setData(String selectedProduct, int position)
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+        public void setDrawable(@DrawableRes int drawable, int posiiton)
         {
-            this.textView.setText(selectedProduct);
-
+            this.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, 0, 0, 0);
         }
 
 
