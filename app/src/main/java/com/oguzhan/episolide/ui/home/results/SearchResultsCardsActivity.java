@@ -23,6 +23,7 @@ public class SearchResultsCardsActivity extends AppCompatActivity
     public final String TV_SHOW_TAG = "tv"; // key : media_type
     public final String MOVIE_TAG = "movie"; // key : media_type
 
+    public static final String TAG_MEDIA_TYPE = "MEDIA_TYPE";
     public static final String TAG_RESULTS = "RESULTS";
     public static final String TAG_URL = "URL";
 
@@ -47,7 +48,7 @@ public class SearchResultsCardsActivity extends AppCompatActivity
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
+        unpackBundle();
         CardView moviesCardView = findViewById(R.id.movies_card);
         moviesCardView.setOnClickListener(new View.OnClickListener()
         {
@@ -57,6 +58,7 @@ public class SearchResultsCardsActivity extends AppCompatActivity
                 Bundle bundle = new Bundle();
                 bundle.putString(TAG_URL, movieUrl);
                 bundle.putString(TAG_RESULTS, moviesResult);
+                bundle.putSerializable(TAG_MEDIA_TYPE, SearchResultsAdapter.MediaType.MOVIE);
                 goSearchResultActivity(bundle);
             }
         });
@@ -71,6 +73,7 @@ public class SearchResultsCardsActivity extends AppCompatActivity
                 Bundle bundle = new Bundle();
                 bundle.putString(TAG_URL, tvShowUrl);
                 bundle.putString(TAG_RESULTS, tvShowsResult);
+                bundle.putSerializable(TAG_MEDIA_TYPE, SearchResultsAdapter.MediaType.TV_SHOW);
                 goSearchResultActivity(bundle);
             }
         });
@@ -84,12 +87,13 @@ public class SearchResultsCardsActivity extends AppCompatActivity
                 Bundle bundle = new Bundle();
                 bundle.putString(TAG_URL, personUrl);
                 bundle.putString(TAG_RESULTS, personResult);
+                bundle.putSerializable(TAG_MEDIA_TYPE, SearchResultsAdapter.MediaType.PERSON);
                 goSearchResultActivity(bundle);
             }
         });
 
 
-        unpackBundle();
+
 
         setResultText(moviesResult, R.id.movies_results_amount_text);
         setResultText(tvShowsResult, R.id.tv_shows_results_amount_text);

@@ -11,9 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.oguzhan.episolide.MainActivity;
 import com.oguzhan.episolide.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Objects;
 
@@ -21,6 +26,12 @@ public class SearchResultsActivity extends AppCompatActivity
 {
 
     private final String PAGE_TEMPLATE = "&page=%d";
+
+    private PageManager pageManager;
+    private String searchURL;
+    private ListView resultsListView;
+    private JSONArray results;
+    SearchResultsAdapter resultsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -34,10 +45,30 @@ public class SearchResultsActivity extends AppCompatActivity
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        resultsListView = findViewById(R.id.search_results_listview);
+
 
         Intent i = getIntent();
-        String url = i.getExtras().getString(SearchResultsCardsActivity.TAG_URL);
-        String results = i.getExtras().getString(SearchResultsCardsActivity.TAG_RESULTS);
+        searchURL = i.getExtras().getString(SearchResultsCardsActivity.TAG_URL);
+        String resultsData = i.getExtras().getString(SearchResultsCardsActivity.TAG_RESULTS);
+
+        SearchResultsAdapter.MediaType mediaType = (SearchResultsAdapter.MediaType) i.getExtras()
+                .getSerializable(SearchResultsCardsActivity.TAG_MEDIA_TYPE);
+        try
+        {
+            JSONObject resultsJsonRoot = new JSONObject(resultsData);
+            pageManager = new PageManager(1, resultsJsonRoot.getInt("total_results"));
+            results = resultsJsonRoot.getJSONArray("results");
+
+            resultsAdapter = new SearchResultsAdapter(this, results, mediaType);
+            resultsListView.setAdapter(resultsAdapter);
+
+
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
 
         ((ImageButton) findViewById(R.id.search_result_next_btn)).setOnClickListener(new View.OnClickListener()
         {

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import com.oguzhan.episolide.utils.JsonReader;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 import java.util.Objects;
 
 public class SearchButtonTask extends AsyncTask<String, Void, Void>
@@ -52,7 +51,7 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
     @Override
     protected void onPostExecute(Void aVoid)
     {
-        homeFragmentWeakReference.get().goSearchResultsActivity(bundleWeakReference.get());
+        homeFragmentWeakReference.get().goSearchResultsCardsActivity(bundleWeakReference.get());
         homeFragmentWeakReference.get().setSearching(false);
         super.onPostExecute(aVoid);
     }

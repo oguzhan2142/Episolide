@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
 
-        new StaticInitilizeTask().execute();
     }
 
     private void logOut()
@@ -55,20 +54,5 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(getApplicationContext(), LoginFirebase.class);
         startActivity(intent);
     }
-    private class StaticInitilizeTask extends AsyncTask<Void,Void,Void>
-    {
 
-        @Override
-        protected Void doInBackground(Void... voids)
-        {
-            try
-            {
-                Statics.initilizeArrays();
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
 }

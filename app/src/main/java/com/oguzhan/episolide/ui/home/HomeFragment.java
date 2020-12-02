@@ -129,7 +129,7 @@ public class HomeFragment extends Fragment
         Keyboard.hideKeyboard(getActivity());
     }
 
-    public void goSearchResultsActivity(Bundle dataBundle)
+    public void goSearchResultsCardsActivity(Bundle dataBundle)
     {
         Intent intent = new Intent(getActivity(), SearchResultsCardsActivity.class);
         intent.putExtras(dataBundle);
