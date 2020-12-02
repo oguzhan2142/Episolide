@@ -4,15 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+
+
     app:cardBackgroundColor="@color/card_background"
-    app:cardCornerRadius="10dp">
+    app:cardCornerRadius="14dp">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="20dp"
-        android:paddingVertical="10dp"
+        android:layout_marginVertical="4dp"
+        android:background="@color/card_background"
         android:orientation="horizontal"
         >
 
@@ -34,42 +37,41 @@
             <TextView
                 android:id="@+id/movieandtv_card_name_text"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginVertical="3dp"
+                android:layout_height="wrap_content"
+
+                android:gravity="center_vertical"
+                android:layout_marginVertical="4dp"
                 android:text="item name"
+                android:textStyle="bold"
                 android:textColor="@color/card_text"
-                android:textSize="20dp" />
+                android:textSize="22dp" />
 
             <TextView
                 android:id="@+id/movieandtv_card_genre_text"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginVertical="3dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
                 android:text="genre"
                 android:textColor="@color/card_text"
-                android:textSize="20dp" />
+                android:textSize="13dp" />
 
             <TextView
                 android:id="@+id/movienandtv_release_date_text"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginVertical="3dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
                 android:text="date"
                 android:textColor="@color/card_text"
-                android:textSize="20dp" />
+                android:textSize="13dp" />
 
             <TextView
                 android:id="@+id/movieandtv_card_vote_text"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginVertical="3dp"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="2dp"
                 android:text="vote"
                 android:textColor="@color/card_text"
-                android:textSize="20dp" />
+                android:textSize="13dp" />
 
         </LinearLayout>
 

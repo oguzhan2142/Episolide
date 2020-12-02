@@ -11,6 +11,6 @@
     <color name="primary_color_darker">#D33D0F</color>
 
     <color name="card_background">#565656</color>
-    <color name="card_text">#A29B4C</color>
+    <color name="card_text">#fffafa</color>
 
 </resources>
