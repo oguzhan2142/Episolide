@@ -17,12 +17,8 @@ import org.json.JSONObject;
 
 public class SearchResultsAdapter extends BaseAdapter
 {
-    public enum MediaType
-    {TV_SHOW, MOVIE, PERSON}
 
-    ;
-
-    private final JSONArray jsonArray;
+    private JSONArray jsonArray;
     private final Context context;
 
     private final String mediaType;
@@ -58,6 +54,12 @@ public class SearchResultsAdapter extends BaseAdapter
     public long getItemId(int position)
     {
         return 0;
+    }
+
+
+    public void setJsonArray(JSONArray jsonArray)
+    {
+        this.jsonArray = jsonArray;
     }
 
     @Override
@@ -168,6 +170,7 @@ public class SearchResultsAdapter extends BaseAdapter
         holder.departmentTextview.setText(item.getString(Statics.PersonKeys.DEPARTMENT));
 
     }
+
 
     private static class PersonViewHolder extends ViewHolder
     {

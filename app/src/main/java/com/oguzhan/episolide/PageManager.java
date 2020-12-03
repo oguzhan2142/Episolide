@@ -1,5 +1,7 @@
 package com.oguzhan.episolide;
 
+import java.util.Locale;
+
 public class PageManager
 {
 
@@ -15,7 +17,7 @@ public class PageManager
 
     public void nextPage()
     {
-        if (!isPassedMaxPage())
+        if (!canNext())
             currentPage++;
 
     }
@@ -23,19 +25,25 @@ public class PageManager
 
     public void previousPage()
     {
-        if (!isPassedMinPage())
+        if (!canPrevious())
             currentPage--;
     }
 
-    private boolean isPassedMinPage()
+    @Override
+    public String toString()
     {
-        return currentPage < 1;
+        return String.format(Locale.US, "%d/%d", currentPage, maxPage);
+    }
+
+    private boolean canPrevious()
+    {
+        return currentPage <= 1;
     }
 
 
-    private boolean isPassedMaxPage()
+    private boolean canNext()
     {
-        return currentPage > maxPage;
+        return currentPage >= maxPage;
     }
 
 
