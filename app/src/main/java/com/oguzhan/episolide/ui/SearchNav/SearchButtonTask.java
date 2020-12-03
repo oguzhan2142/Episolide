@@ -38,13 +38,6 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
         String[] datas = new String[]{movies, tvShows, persons};
         String[] urls = new String[]{movieUrl, tvShowUrl, personUrl};
 
-//        bundleWeakReference.get().putString("movie_url", movieUrl);
-//        bundleWeakReference.get().putString("movie_results", movies);
-//        bundleWeakReference.get().putString("tv_show_url", tvShowUrl);
-//        bundleWeakReference.get().putString("tv_show_results", tvShows);
-//        bundleWeakReference.get().putString("person_url", personUrl);
-//        bundleWeakReference.get().putString("person_results", persons);
-
         bundleWeakReference.get().putStringArray("datas", datas);
         bundleWeakReference.get().putStringArray("urls", urls);
 

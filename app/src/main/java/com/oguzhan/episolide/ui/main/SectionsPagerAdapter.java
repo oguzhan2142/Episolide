@@ -11,6 +11,11 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.oguzhan.episolide.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Locale;
+
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
@@ -52,7 +57,22 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter
     @Override
     public CharSequence getPageTitle(int position)
     {
-        return mContext.getResources().getString(TAB_TITLES[position]);
+
+        String pureTitle = mContext.getResources().getString(TAB_TITLES[position]);
+        String title = pureTitle;
+
+        try
+        {
+            JSONObject data = new JSONObject(datas[position]);
+            int totalResults = data.getInt("total_results");
+            title = String.format(Locale.US, "%s (%d)", pureTitle, totalResults);
+
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+        return title;
     }
 
     @Override
