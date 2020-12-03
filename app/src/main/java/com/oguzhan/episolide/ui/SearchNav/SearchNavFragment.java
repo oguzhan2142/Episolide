@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.SearchResultsTabbedActivity;
-import com.oguzhan.episolide.ui.SearchNav.results.SearchResultsCardsActivity;
 import com.oguzhan.episolide.utils.Keyboard;
 import com.oguzhan.episolide.utils.Statics;
 
