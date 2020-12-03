@@ -3,20 +3,15 @@ package com.oguzhan.episolide;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-
-import com.oguzhan.episolide.ui.SearchNav.results.SearchResultsAdapter;
-import com.oguzhan.episolide.ui.SearchNav.results.SearchResultsCardsActivity;
 import com.oguzhan.episolide.ui.main.SectionsPagerAdapter;
+
+import java.util.Objects;
 
 public class SearchResultsTabbedActivity extends AppCompatActivity
 {
@@ -26,7 +21,11 @@ public class SearchResultsTabbedActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results_tabbed);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_search_result_card_activity);
+        setSupportActionBar(toolbar);
 
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
 
@@ -43,4 +42,12 @@ public class SearchResultsTabbedActivity extends AppCompatActivity
         tabs.setupWithViewPager(viewPager);
 
     }
+
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+        onBackPressed();
+        return true;
+    }
+
 }

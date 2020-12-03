@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import com.oguzhan.episolide.R;
+import com.oguzhan.episolide.ui.SearchResultsAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;

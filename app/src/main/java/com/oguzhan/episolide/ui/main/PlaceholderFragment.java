@@ -1,33 +1,23 @@
 package com.oguzhan.episolide.ui.main;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.oguzhan.episolide.R;
-import com.oguzhan.episolide.ui.SearchNav.results.PageManager;
-import com.oguzhan.episolide.ui.SearchNav.results.SearchResultsAdapter;
-import com.oguzhan.episolide.ui.SearchNav.results.SearchResultsCardsActivity;
+import com.oguzhan.episolide.PageManager;
+import com.oguzhan.episolide.ui.SearchResultsAdapter;
 import com.oguzhan.episolide.utils.Statics;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Objects;
 
 /**
  * A placeholder fragment containing a simple view.

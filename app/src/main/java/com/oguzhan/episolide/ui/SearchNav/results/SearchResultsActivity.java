@@ -14,7 +14,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.oguzhan.episolide.MainActivity;
+import com.oguzhan.episolide.PageManager;
 import com.oguzhan.episolide.R;
+import com.oguzhan.episolide.ui.SearchResultsAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
