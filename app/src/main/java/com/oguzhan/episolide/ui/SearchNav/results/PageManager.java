@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.home.results;
+package com.oguzhan.episolide.ui.SearchNav.results;
 
 public class PageManager
 {

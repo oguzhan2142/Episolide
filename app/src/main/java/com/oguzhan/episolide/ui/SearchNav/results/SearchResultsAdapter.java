@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.home.results;
+package com.oguzhan.episolide.ui.SearchNav.results;
 
 import android.content.Context;
 import android.view.View;
@@ -25,9 +25,9 @@ public class SearchResultsAdapter extends BaseAdapter
     private final JSONArray jsonArray;
     private final Context context;
 
-    private final MediaType mediaType;
+    private final String mediaType;
 
-    public SearchResultsAdapter(Context context, JSONArray jsonArray, MediaType mediaType)
+    public SearchResultsAdapter(Context context, JSONArray jsonArray, String mediaType)
     {
 
         this.context = context;
@@ -68,7 +68,7 @@ public class SearchResultsAdapter extends BaseAdapter
         if (convertView == null)
         {
 
-            if (mediaType == MediaType.MOVIE || mediaType == MediaType.TV_SHOW)
+            if (mediaType.equals(Statics.MovieKeys.MEDIA_TYPE) || mediaType.equals(Statics.TvShowKeys.MEDIA_TYPE))
             {
                 convertView = View.inflate(context, R.layout.list_item_movie_tvshow, null);
 
@@ -105,14 +105,14 @@ public class SearchResultsAdapter extends BaseAdapter
             JSONObject item = jsonArray.getJSONObject(position);
 
 
-            if (mediaType == MediaType.TV_SHOW)
+            if (mediaType.equals(Statics.TvShowKeys.MEDIA_TYPE))
             {
                 setViewHolderValuesForTvShow((MovieOrTvViewHolder) holder, item);
 
-            } else if (mediaType == MediaType.MOVIE)
+            } else if (mediaType.equals(Statics.MovieKeys.MEDIA_TYPE))
             {
                 setViewHolderValuesForMovie((MovieOrTvViewHolder) holder, item);
-            } else if (mediaType == MediaType.PERSON)
+            } else if (mediaType.equals(Statics.PersonKeys.MEDIA_TYPE))
             {
                 setViewHolderValuesForPerson((PersonViewHolder) holder, item);
             }

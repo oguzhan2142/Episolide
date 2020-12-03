@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.home.results;
+package com.oguzhan.episolide.ui.SearchNav.results;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,12 +41,10 @@ public class SearchResultsActivity extends AppCompatActivity
 
         Toolbar toolbar = findViewById(R.id.toolbar_search_results);
         setSupportActionBar(toolbar);
-
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         resultsListView = findViewById(R.id.search_results_listview);
-
 
         Intent i = getIntent();
         searchURL = i.getExtras().getString(SearchResultsCardsActivity.TAG_URL);
@@ -60,7 +58,7 @@ public class SearchResultsActivity extends AppCompatActivity
             pageManager = new PageManager(1, resultsJsonRoot.getInt("total_results"));
             results = resultsJsonRoot.getJSONArray("results");
 
-            resultsAdapter = new SearchResultsAdapter(this, results, mediaType);
+//            resultsAdapter = new SearchResultsAdapter(this, results, mediaType);
             resultsListView.setAdapter(resultsAdapter);
 
 

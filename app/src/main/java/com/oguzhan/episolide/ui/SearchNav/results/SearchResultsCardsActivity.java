@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.home.results;
+package com.oguzhan.episolide.ui.SearchNav.results;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
 import com.oguzhan.episolide.R;
-import com.oguzhan.episolide.ui.home.HomeFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;

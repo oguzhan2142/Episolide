@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.home;
+package com.oguzhan.episolide.ui.SearchNav;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,13 +17,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.oguzhan.episolide.R;
-import com.oguzhan.episolide.ui.home.results.SearchResultsCardsActivity;
+import com.oguzhan.episolide.SearchResultsTabbedActivity;
+import com.oguzhan.episolide.ui.SearchNav.results.SearchResultsCardsActivity;
 import com.oguzhan.episolide.utils.Keyboard;
 import com.oguzhan.episolide.utils.Statics;
 
-import java.util.HashMap;
-
-public class HomeFragment extends Fragment
+public class SearchNavFragment extends Fragment
 {
 
     public static final String PERSON_TAG = "PERSON";
@@ -131,7 +130,9 @@ public class HomeFragment extends Fragment
 
     public void goSearchResultsCardsActivity(Bundle dataBundle)
     {
-        Intent intent = new Intent(getActivity(), SearchResultsCardsActivity.class);
+//        Intent intent = new Intent(getActivity(), SearchResultsCardsActivity.class);
+        Intent intent = new Intent(getActivity(), SearchResultsTabbedActivity.class);
+
         intent.putExtras(dataBundle);
         startActivity(intent);
     }

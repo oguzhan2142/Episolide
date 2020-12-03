@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.home;
+package com.oguzhan.episolide.ui.SearchNav;
 
 import android.os.AsyncTask;
 import android.view.View;

@@ -12,8 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Episolide.NoActionBar">
-        <activity android:name=".ui.home.results.SearchResultsActivity" android:parentActivityName=".MainActivity"/>
-        <activity android:name=".ui.home.results.SearchResultsCardsActivity" android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".SearchResultsTabbedActivity"
+            android:label="@string/title_activity_search_results_tabbed"
+            android:theme="@style/Theme.Episolide.NoActionBar.NoActionBar"></activity>
+        <activity
+            android:name=".ui.SearchNav.results.SearchResultsActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".ui.SearchNav.results.SearchResultsCardsActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
