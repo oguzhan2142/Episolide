@@ -17,7 +17,7 @@ import java.lang.ref.WeakReference;
 
 public class KeyboardSearchTask extends AsyncTask<String, String, JSONObject>
 {
-    private final int MAX_TAKABLE_RESULTS = 10;
+    private final int MAX_TAKABLE_RESULTS = 8;
 
 
     private WeakReference<RecyclerView> recyclerView;
@@ -56,6 +56,11 @@ public class KeyboardSearchTask extends AsyncTask<String, String, JSONObject>
                 results = new JSONArray();
             else
                 results = s.getJSONArray("results");
+
+            while (results.length() > MAX_TAKABLE_RESULTS)
+            {
+                results.remove(results.length() - 1);
+            }
 
 
             RecyclerAdapter adapter = (RecyclerAdapter) recyclerView.get().getAdapter();

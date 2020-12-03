@@ -4,10 +4,12 @@
     android:id="@+id/suggestion_card_item"
     app:cardCornerRadius="12dp"
     app:cardBackgroundColor="@color/primary_color"
+    android:layout_gravity="center_horizontal"
     android:layout_width="wrap_content"
-    android:layout_marginHorizontal="6dp"
-    android:layout_marginVertical="2dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginVertical="4dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,9 +27,8 @@
         android:gravity="center_vertical"
         android:paddingVertical="4dp"
         android:paddingHorizontal="8dp"
-
         android:drawableLeft="@drawable/tv_show"
         android:drawablePadding="6dp"
-        android:textSize="12sp" />
+        android:textSize="14sp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
