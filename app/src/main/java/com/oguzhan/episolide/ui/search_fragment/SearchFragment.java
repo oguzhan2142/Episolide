@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.SearchNav;
+package com.oguzhan.episolide.ui.search_fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,7 +21,7 @@ import com.oguzhan.episolide.SearchResultsTabbedActivity;
 import com.oguzhan.episolide.utils.Keyboard;
 import com.oguzhan.episolide.utils.Statics;
 
-public class SearchNavFragment extends Fragment
+public class SearchFragment extends Fragment
 {
 
     public static final String PERSON_TAG = "PERSON";
@@ -43,7 +43,7 @@ public class SearchNavFragment extends Fragment
     {
 
 
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_search, container, false);
     }
 
     @Override

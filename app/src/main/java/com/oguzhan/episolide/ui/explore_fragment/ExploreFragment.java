@@ -1,10 +1,9 @@
-package com.oguzhan.episolide.ui.dashboard;
+package com.oguzhan.episolide.ui.explore_fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.oguzhan.episolide.R;
 
-public class DashboardFragment extends Fragment
+public class ExploreFragment extends Fragment
 {
 
     private DashboardViewModel dashboardViewModel;
@@ -24,16 +23,9 @@ public class DashboardFragment extends Fragment
     {
         dashboardViewModel =
                 new ViewModelProvider(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        View root = inflater.inflate(R.layout.fragment_explore, container, false);
 
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>()
-        {
-            @Override
-            public void onChanged(@Nullable String s)
-            {
 
-            }
-        });
         return root;
     }
 }

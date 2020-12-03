@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.notifications;
+package com.oguzhan.episolide.ui.profile_fragment;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

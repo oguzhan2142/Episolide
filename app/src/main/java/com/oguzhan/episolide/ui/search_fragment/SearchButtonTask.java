@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.SearchNav;
+package com.oguzhan.episolide.ui.search_fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,10 +12,10 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
 {
 
 
-    private final WeakReference<SearchNavFragment> homeFragmentWeakReference;
+    private final WeakReference<SearchFragment> homeFragmentWeakReference;
     private final WeakReference<Bundle> bundleWeakReference;
 
-    public SearchButtonTask(SearchNavFragment homeFragment)
+    public SearchButtonTask(SearchFragment homeFragment)
     {
         homeFragmentWeakReference = new WeakReference<>(homeFragment);
 

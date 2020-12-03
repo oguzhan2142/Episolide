@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashboardFragment">
+    tools:context=".ui.explore_fragment.ExploreFragment">
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="EXPLORE SYAFASI"
+        android:textSize="40sp" />
 </FrameLayout>

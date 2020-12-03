@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.dashboard;
+package com.oguzhan.episolide.ui.explore_fragment;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
