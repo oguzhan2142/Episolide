@@ -30,6 +30,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     }
 
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -94,6 +96,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             e.printStackTrace();
         }
 
+    }
+
+    public void setResults(JSONArray results)
+    {
+        this.results = results;
     }
 
     @Override

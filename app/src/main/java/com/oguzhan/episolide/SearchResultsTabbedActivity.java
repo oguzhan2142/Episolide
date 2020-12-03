@@ -9,7 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.oguzhan.episolide.ui.main.SectionsPagerAdapter;
+import com.oguzhan.episolide.ui.tabbed_activity.SectionsPagerAdapter;
 
 import java.util.Objects;
 

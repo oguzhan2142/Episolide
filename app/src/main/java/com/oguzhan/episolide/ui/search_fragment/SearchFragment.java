@@ -21,6 +21,8 @@ import com.oguzhan.episolide.SearchResultsTabbedActivity;
 import com.oguzhan.episolide.utils.Keyboard;
 import com.oguzhan.episolide.utils.Statics;
 
+import org.json.JSONArray;
+
 public class SearchFragment extends Fragment
 {
 
@@ -37,6 +39,8 @@ public class SearchFragment extends Fragment
     private ImageButton search_btn;
 
     private boolean searching = false;
+    private RecyclerView recyclerView;
+    private JSONArray results;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
@@ -51,61 +55,18 @@ public class SearchFragment extends Fragment
     {
         editText = getView().findViewById(R.id.search_edit_text);
         search_btn = getView().findViewById(R.id.search_btn);
-        editText.setOnKeyListener(new View.OnKeyListener()
-        {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event)
-            {
 
-                if (keyCode == KeyEvent.KEYCODE_ENTER)
-                {
-                    doSearch();
-                    return true;
-                }
+        results = new JSONArray();
 
-                return false;
-            }
-        });
+        recyclerView = view.findViewById(R.id.resycle_view);
+        recyclerView.setAdapter(new RecyclerAdapter(getContext(), results));
 
 
-        editText.addTextChangedListener(new TextWatcher()
-        {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+        editText.setOnKeyListener(createSearchButtonEnterListener());
+        editText.addTextChangedListener(createTextChangedListener());
+        search_btn.setOnClickListener(createSearchButtonOnClickListener());
 
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable s)
-            {
-                if (s.length() == 0)
-                {
-                    RecyclerView recyclerView = view.findViewById(R.id.resycle_view);
-                    recyclerView.setAdapter(null);
-                    return;
-                }
-
-                String url = String.format(MULTI_SEARCH_TEMPLATE, Statics.ENGLISH, s);
-                new KeyboardSearchTask(getView()).execute(url);
-            }
-        });
-
-
-        search_btn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                doSearch();
-            }
-        });
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -125,6 +86,65 @@ public class SearchFragment extends Fragment
         new SearchButtonTask(this).execute(movieUrl, tvShowUrl, personUrl);
 
         Keyboard.hideKeyboard(getActivity());
+    }
+
+    private View.OnClickListener createSearchButtonOnClickListener()
+    {
+        return new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                doSearch();
+            }
+        };
+    }
+
+
+    private View.OnKeyListener createSearchButtonEnterListener()
+    {
+        return new View.OnKeyListener()
+        {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+
+                if (keyCode == KeyEvent.KEYCODE_ENTER)
+                {
+                    doSearch();
+                    return true;
+                }
+
+                return false;
+            }
+        };
+    }
+
+    private TextWatcher createTextChangedListener()
+    {
+        return new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+
+
+                String url = String.format(MULTI_SEARCH_TEMPLATE, Statics.ENGLISH, s);
+                new KeyboardSearchTask(recyclerView).execute(url);
+            }
+        };
     }
 
     public void goSearchResultsCardsActivity(Bundle dataBundle)

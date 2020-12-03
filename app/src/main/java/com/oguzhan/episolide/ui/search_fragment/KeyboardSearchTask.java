@@ -1,11 +1,12 @@
 package com.oguzhan.episolide.ui.search_fragment;
 
 import android.os.AsyncTask;
-import android.view.View;
+import android.os.Build;
+import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.utils.JsonReader;
 
 import org.json.JSONArray;
@@ -19,12 +20,12 @@ public class KeyboardSearchTask extends AsyncTask<String, String, JSONObject>
     private final int MAX_TAKABLE_RESULTS = 10;
 
 
-    private WeakReference<View> viewWeakReference;
+    private WeakReference<RecyclerView> recyclerView;
 
 
-    public KeyboardSearchTask(View view)
+    public KeyboardSearchTask(RecyclerView recyclerView)
     {
-        this.viewWeakReference = new WeakReference<>(view);
+        this.recyclerView = new WeakReference<>(recyclerView);
 
     }
 
@@ -36,6 +37,7 @@ public class KeyboardSearchTask extends AsyncTask<String, String, JSONObject>
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onPostExecute(JSONObject s)
     {
@@ -48,13 +50,21 @@ public class KeyboardSearchTask extends AsyncTask<String, String, JSONObject>
              * person name
              */
 
-            JSONArray results = s.getJSONArray("results");
+            JSONArray results;
+
+            if (s == null)
+                results = new JSONArray();
+            else
+                results = s.getJSONArray("results");
 
 
-            RecyclerView recyclerView = viewWeakReference.get().findViewById(R.id.resycle_view);
+            RecyclerAdapter adapter = (RecyclerAdapter) recyclerView.get().getAdapter();
 
-            RecyclerAdapter adapter = new RecyclerAdapter(viewWeakReference.get().getContext(), results);
-            recyclerView.setAdapter(adapter);
+            if (adapter != null)
+            {
+                adapter.setResults(results);
+                adapter.notifyDataSetChanged();
+            }
 
 
         } catch (JSONException e)

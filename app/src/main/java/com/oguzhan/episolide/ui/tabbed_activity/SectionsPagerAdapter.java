@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.main;
+package com.oguzhan.episolide.ui.tabbed_activity;
 
 import android.content.Context;
 import android.os.Bundle;
