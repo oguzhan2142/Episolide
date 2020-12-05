@@ -17,6 +17,8 @@ public class Statics
 
     public static String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/";
 
+
+
     public static String[] BACKDROP_SIZES = {"w300", "w780", "w1280", "original"};
     public static String[] POSTER_SIZES = {"w92", "w154", "w185", "w342", "w500", "w780", "original"};
     public static String[] PROFILE_SIZES = {"w45", "w185", "h632", "original"};
@@ -55,7 +57,6 @@ public class Statics
     {
         public static final String NAME = "name";
         public static final String MEDIA_TYPE = "person";
-
         public static final String POSTER_PATH = "profile_path";
         public static final String DEPARTMENT = "known_for_department";
 
