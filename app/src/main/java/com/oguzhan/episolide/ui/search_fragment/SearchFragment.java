@@ -61,7 +61,6 @@ public class SearchFragment extends Fragment
         recyclerView = view.findViewById(R.id.resycle_view);
         recyclerView.setAdapter(new RecyclerAdapter(getContext(), results));
 
-
         editText.setOnKeyListener(createSearchButtonEnterListener());
         editText.addTextChangedListener(createTextChangedListener());
         search_btn.setOnClickListener(createSearchButtonOnClickListener());

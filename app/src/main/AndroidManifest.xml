@@ -12,10 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Episolide.NoActionBar">
+        <activity android:name=".PersonDetailActivity"></activity>
+        <activity
+            android:name="com.oguzhan.MovieDetailActivity"
+            android:label="@string/title_activity_detail"
+            android:theme="@style/Theme.Episolide.NoActionBar.NoActionBar" />
         <activity
             android:name=".SearchResultsTabbedActivity"
             android:label="@string/title_activity_search_results_tabbed"
-            android:theme="@style/Theme.Episolide.NoActionBar.NoActionBar"></activity>
+            android:theme="@style/Theme.Episolide.NoActionBar.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:windowSoftInputMode="adjustPan">
