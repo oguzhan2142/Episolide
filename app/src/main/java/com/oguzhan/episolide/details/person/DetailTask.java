@@ -45,7 +45,6 @@ public class DetailTask extends AsyncTask<Integer, Void, JSONObject>
             String department = jsonObject.getString("known_for_department");
             String biography = jsonObject.getString("biography");
 
-
             personDetailActivity.get().getNameView().setText(name);
             personDetailActivity.get().getBirthdayView().setText(birthday);
             personDetailActivity.get().getBirthPlaceView().setText(placeOfBirth);

@@ -1,6 +1,9 @@
 package com.oguzhan.episolide.details.person;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +31,7 @@ public class PersonDetailActivity extends AppCompatActivity
     private TextView birthPlaceView;
     private ExpandableTextView biographyTextview;
     private LinearLayout profileImagesLinearLayout;
+    private FrameLayout frameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +50,17 @@ public class PersonDetailActivity extends AppCompatActivity
         birthPlaceView = findViewById(R.id.birth_place_textview);
         biographyTextview = findViewById(R.id.biography_expandabletext);
         profileImagesLinearLayout = findViewById(R.id.profile_images_linearlayout);
+        frameLayout = findViewById(R.id.profile_image_containenr);
+
+
+        frameLayout.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                frameLayout.setVisibility(FrameLayout.GONE);
+            }
+        });
 
         String data = getIntent().getStringExtra(PlaceholderFragment.DETAIL_ACTIVITY_DATA_TAG);
         try
@@ -53,26 +68,12 @@ public class PersonDetailActivity extends AppCompatActivity
             JSONObject jsonData = new JSONObject(data);
             String profilePath = jsonData.getString(Statics.PersonKeys.POSTER_PATH);
             JSONArray knownForArray = jsonData.getJSONArray("known_for");
+            LinearLayout knownLinearLayout = (LinearLayout) findViewById(R.id.known_for_linaerlayour);
 
 
-            LinearLayout layout = (LinearLayout) findViewById(R.id.known_for_linaerlayour);
-
-            for (int i = 0; i < knownForArray.length(); i++)
-            {
-
-                JSONObject knownFor = knownForArray.getJSONObject(i);
-                String posterPath = knownFor.getString("poster_path");
-                String posterURL = Statics.BASE_IMAGE_URL + Statics.POSTER_SIZES[1] + posterPath;
-
-                ImageView imageView = createCardImageView();
-                Picasso.get().load(posterURL).into(imageView);
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-                layout.addView(imageView);
-            }
-
+            fiilKnownForImagesToLayout(knownForArray, knownLinearLayout);
 
             String profileImageURL = Statics.BASE_IMAGE_URL + Statics.POSTER_SIZES[1] + profilePath;
-
             Picasso.get().load(profileImageURL).into(posterViev);
 
             int id = jsonData.getInt("id");
@@ -85,13 +86,54 @@ public class PersonDetailActivity extends AppCompatActivity
         }
     }
 
+    private void fiilKnownForImagesToLayout(JSONArray knownForArray, LinearLayout knownLinearLayout) throws JSONException
+    {
+
+
+        for (int i = 0; i < knownForArray.length(); i++)
+        {
+
+            JSONObject knownFor = knownForArray.getJSONObject(i);
+            String posterPath = knownFor.getString("poster_path");
+            String posterURL = Statics.BASE_IMAGE_URL + Statics.POSTER_SIZES[1] + posterPath;
+
+            ImageView imageView = createCardImageView();
+            imageView.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Drawable drawable = ((ImageView) v).getDrawable();
+                    setDrawableForFullScreen(drawable);
+                    frameLayout.setVisibility(FrameLayout.VISIBLE);
+                }
+            });
+            Picasso.get().load(posterURL).into(imageView);
+            knownLinearLayout.addView(imageView);
+        }
+    }
+
     @Override
     public boolean onSupportNavigateUp()
     {
-        onBackPressed();
+
+        boolean isFullScreenLayoutOpen = frameLayout.getVisibility() == View.VISIBLE;
+        if (isFullScreenLayoutOpen)
+            frameLayout.setVisibility(FrameLayout.GONE);
+        else
+            onBackPressed();
+
+
         return super.onSupportNavigateUp();
     }
 
+
+
+    public void setDrawableForFullScreen(Drawable drawable)
+    {
+        ImageView imageview = findViewById(R.id.profile_image_view);
+        imageview.setImageDrawable(drawable);
+    }
 
     public ImageView createCardImageView()
     {
@@ -106,6 +148,11 @@ public class PersonDetailActivity extends AppCompatActivity
         param.rightMargin = 1;
         imageView.setLayoutParams(param);
         return imageView;
+    }
+
+    public FrameLayout getFrameLayout()
+    {
+        return frameLayout;
     }
 
     public ImageView getPosterViev()

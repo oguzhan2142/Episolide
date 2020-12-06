@@ -1,8 +1,11 @@
 package com.oguzhan.episolide.details.person;
 
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.oguzhan.episolide.utils.JsonReader;
@@ -42,8 +45,9 @@ public class ImagesTask extends AsyncTask<Integer, Void, Void>
             {
 
                 String path = profiles.getJSONObject(i).getString("file_path");
-                String profileImageURL = Statics.BASE_IMAGE_URL + Statics.PROFILE_SIZES[0] + path;
+                String profileImageURL = Statics.BASE_IMAGE_URL + Statics.PROFILE_SIZES[1] + path;
                 ImageView view = personDetailActivity.get().createCardImageView();
+
                 Handler uiHandler = new Handler(Looper.getMainLooper());
                 uiHandler.post(new Runnable()
                 {
@@ -52,13 +56,19 @@ public class ImagesTask extends AsyncTask<Integer, Void, Void>
                     {
                         Picasso.get().load(profileImageURL).into(view);
                         personDetailActivity.get().getProfileImagesLinearLayout().addView(view);
+                        view.setOnClickListener(new View.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(View v)
+                            {
+                                Drawable drawable = ((ImageView)v).getDrawable();
+                                personDetailActivity.get().setDrawableForFullScreen(drawable);
+                                personDetailActivity.get().getFrameLayout().setVisibility(FrameLayout.VISIBLE);
+                            }
+                        });
                     }
                 });
-
-
-
             }
-
         } catch (JSONException e)
         {
             e.printStackTrace();
