@@ -98,8 +98,13 @@
 
             </LinearLayout>
 
+            <com.oguzhan.episolide.utils.ExpandableTextView
+                android:id="@+id/biography_expandabletext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp" />
 
-            <ScrollView
+            <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="170dp">
 
@@ -114,23 +119,25 @@
 
 
                 </LinearLayout>
-            </ScrollView>
+            </HorizontalScrollView>
 
-            <com.oguzhan.episolide.utils.ExpandableTextView
-                android:id="@+id/biography_expandabletext"
+
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp" />
+                android:layout_height="170dp">
+
+                <LinearLayout
+                    android:id="@+id/profile_images_linearlayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+            </HorizontalScrollView>
 
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="170dp">
 
-                <LinearLayout
-                    android:id="@+id/profile_images"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal" />
             </ScrollView>
         </LinearLayout>
     </ScrollView>
