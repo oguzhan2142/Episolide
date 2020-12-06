@@ -1,14 +1,15 @@
 package com.oguzhan.episolide;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.oguzhan.episolide.ui.tabbed_activity.PlaceholderFragment;
 import com.oguzhan.episolide.utils.JsonReader;
@@ -38,7 +39,7 @@ public class PersonDetailActivity extends AppCompatActivity
         setContentView(R.layout.activity_person_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_person_detail);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         posterViev = findViewById(R.id.profile_imageview);
@@ -97,13 +98,13 @@ public class PersonDetailActivity extends AppCompatActivity
         }
     }
 
-
     @Override
-    public boolean onNavigateUp()
+    public boolean onSupportNavigateUp()
     {
         onBackPressed();
-        return true;
+        return super.onSupportNavigateUp();
     }
+
 
 
     private class DetailTask extends AsyncTask<Integer, Void, JSONObject>
