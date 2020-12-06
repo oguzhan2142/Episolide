@@ -1,4 +1,4 @@
-package com.oguzhan.episolide;
+package com.oguzhan.episolide.details.person;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,7 +11,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.ui.tabbed_activity.PlaceholderFragment;
+import com.oguzhan.episolide.utils.ExpandableTextView;
 import com.oguzhan.episolide.utils.JsonReader;
 import com.oguzhan.episolide.utils.Statics;
 import com.squareup.picasso.Picasso;
@@ -31,6 +33,7 @@ public class PersonDetailActivity extends AppCompatActivity
     private TextView departmentView;
     private TextView birthdayView;
     private TextView birthPlaceView;
+    private ExpandableTextView biographyTextview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -47,6 +50,7 @@ public class PersonDetailActivity extends AppCompatActivity
         departmentView = findViewById(R.id.department_textview);
         birthdayView = findViewById(R.id.birthday_textview);
         birthPlaceView = findViewById(R.id.birth_place_textview);
+        biographyTextview = findViewById(R.id.biography_expandabletext);
 
         String data = getIntent().getStringExtra(PlaceholderFragment.DETAIL_ACTIVITY_DATA_TAG);
         try
@@ -58,7 +62,7 @@ public class PersonDetailActivity extends AppCompatActivity
 
             LinearLayout layout = (LinearLayout) findViewById(R.id.known_for_linaerlayour);
 
-            for (int i = 0; i < knownForArray.length() ; i++)
+            for (int i = 0; i < knownForArray.length(); i++)
             {
 
                 JSONObject knownFor = knownForArray.getJSONObject(i);
@@ -90,7 +94,7 @@ public class PersonDetailActivity extends AppCompatActivity
             Picasso.get().load(profileImageURL).into(posterViev);
 
             int id = jsonData.getInt("id");
-            new DetailTask().execute(id);
+            new DetailTask(this).execute(id);
 
         } catch (JSONException e)
         {
@@ -106,50 +110,33 @@ public class PersonDetailActivity extends AppCompatActivity
     }
 
 
-
-    private class DetailTask extends AsyncTask<Integer, Void, JSONObject>
+    public ImageView getPosterViev()
     {
+        return posterViev;
+    }
 
-        private final String PERSON_DETAIL_TEMPLATE = "https://api.themoviedb.org/3/person/%d?api_key=ee637fe7f604d38049e71cb513a8a04d";
+    public TextView getNameView()
+    {
+        return nameView;
+    }
 
+    public TextView getDepartmentView()
+    {
+        return departmentView;
+    }
 
-        @Override
-        protected JSONObject doInBackground(Integer... integers)
-        {
-            int id = integers[0];
-            String url = String.format(Locale.US, PERSON_DETAIL_TEMPLATE, id);
-            return JsonReader.readJsonFromUrl(url);
+    public TextView getBirthdayView()
+    {
+        return birthdayView;
+    }
 
-        }
+    public TextView getBirthPlaceView()
+    {
+        return birthPlaceView;
+    }
 
-        @Override
-        protected void onPostExecute(JSONObject jsonObject)
-        {
-            super.onPostExecute(jsonObject);
-
-
-            try
-            {
-                String name = jsonObject.getString("name");
-                String birthday = jsonObject.getString("birthday");
-                String deadDay = jsonObject.getString("deathday");
-                String placeOfBirth = jsonObject.getString("place_of_birth");
-                String department = jsonObject.getString("known_for_department");
-                String biography = jsonObject.getString("biography");
-
-
-                nameView.setText(name);
-                birthdayView.setText(birthday);
-                birthPlaceView.setText(placeOfBirth);
-                departmentView.setText(department);
-
-
-            } catch (JSONException e)
-            {
-                e.printStackTrace();
-            }
-
-
-        }
+    public ExpandableTextView getBiographyTextview()
+    {
+        return biographyTextview;
     }
 }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PersonDetailActivity">
+    tools:context=".details.person.PersonDetailActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_person_detail"
@@ -14,72 +15,123 @@
         android:background="@color/primary_color" />
 
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/profile_image_containenr"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/profile_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@color/design_default_color_secondary" />
+
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
-
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/profile_imageview"
-                android:layout_width="120dp"
-                android:layout_height="160dp"
-                android:layout_gravity="center" />
-        </FrameLayout>
+        android:layout_marginHorizontal="10dp">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/name_textview"
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Name of Person"
-                android:textSize="24sp" />
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/department_textview"
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/profile_imageview"
+                        android:layout_width="120dp"
+                        android:layout_height="160dp"
+                        android:layout_gravity="center" />
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/name_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Name of Person"
+                        android:textSize="24sp" />
+
+                    <TextView
+                        android:id="@+id/department_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Acting"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/birthday_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Birthday (30)"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/birth_place_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Place of Birth"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="170dp">
+
+                <LinearLayout
+
+                    android:id="@+id/known_for_linaerlayour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                </LinearLayout>
+            </ScrollView>
+
+            <com.oguzhan.episolide.utils.ExpandableTextView
+                android:id="@+id/biography_expandabletext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Acting"
-                android:textSize="18sp" />
+                android:layout_marginTop="10dp" />
 
-            <TextView
-                android:id="@+id/birthday_textview"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Birthday (30)"
-                android:textSize="18sp" />
+                android:layout_height="170dp">
 
-            <TextView
-                android:id="@+id/birth_place_textview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Place of Birth"
-                android:textSize="18sp" />
-
+                <LinearLayout
+                    android:id="@+id/profile_images"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </ScrollView>
         </LinearLayout>
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-
-        android:id="@+id/known_for_linaerlayour"
-        android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:gravity="center"
-        android:orientation="horizontal" />
-
+    </ScrollView>
 </LinearLayout>

@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.oguzhan.MovieDetailActivity;
 import com.oguzhan.episolide.PageManager;
-import com.oguzhan.episolide.PersonDetailActivity;
+import com.oguzhan.episolide.details.person.PersonDetailActivity;
 import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.ui.SearchResultsAdapter;
 import com.oguzhan.episolide.utils.Statics;
