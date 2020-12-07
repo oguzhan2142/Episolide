@@ -3,9 +3,11 @@ package com.oguzhan.episolide.details.person;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,6 +34,7 @@ public class PersonDetailActivity extends AppCompatActivity
     private ExpandableTextView biographyTextview;
     private LinearLayout profileImagesLinearLayout;
     private FrameLayout frameLayout;
+    private ListView moviesListview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +54,7 @@ public class PersonDetailActivity extends AppCompatActivity
         biographyTextview = findViewById(R.id.biography_expandabletext);
         profileImagesLinearLayout = findViewById(R.id.profile_images_linearlayout);
         frameLayout = findViewById(R.id.profile_image_containenr);
+        moviesListview = findViewById(R.id.expandableListView);
 
 
         frameLayout.setOnClickListener(new View.OnClickListener()
@@ -79,6 +83,10 @@ public class PersonDetailActivity extends AppCompatActivity
             int id = jsonData.getInt("id");
             new DetailTask(this).execute(id);
             new ImagesTask(this).execute(id);
+
+
+            new MediaCreditsTask(this).execute(id);
+
 
         } catch (JSONException e)
         {
@@ -128,7 +136,6 @@ public class PersonDetailActivity extends AppCompatActivity
     }
 
 
-
     public void setDrawableForFullScreen(Drawable drawable)
     {
         ImageView imageview = findViewById(R.id.profile_image_view);
@@ -153,6 +160,12 @@ public class PersonDetailActivity extends AppCompatActivity
     public FrameLayout getFrameLayout()
     {
         return frameLayout;
+    }
+
+
+    public ListView getMoviesListview()
+    {
+        return moviesListview;
     }
 
     public ImageView getPosterViev()
