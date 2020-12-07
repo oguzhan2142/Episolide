@@ -2,16 +2,16 @@ package com.oguzhan.episolide.details.person;
 
 import java.util.List;
 
-public class PersonDetailListItem
+public class PersonCreditDetails
 {
 
     public String name;
 
-    public PersonDetailListItem()
+    public PersonCreditDetails()
     {
     }
 
-    public PersonDetailListItem(String name)
+    public PersonCreditDetails(String name)
     {
         this.name = name;
     }

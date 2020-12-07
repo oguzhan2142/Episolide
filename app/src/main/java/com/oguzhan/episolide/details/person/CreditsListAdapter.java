@@ -12,14 +12,13 @@ import androidx.annotation.Nullable;
 
 import com.oguzhan.episolide.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CreditsListAdapter extends ArrayAdapter<PersonDetailListItem>
+public class CreditsListAdapter extends ArrayAdapter<PersonCreditDetails>
 {
-    public CreditsListAdapter(@NonNull Context context, List<PersonDetailListItem> personDetailListItems)
+    public CreditsListAdapter(@NonNull Context context, List<PersonCreditDetails> personCreditDetails)
     {
-        super(context, 0, personDetailListItems);
+        super(context, 0, personCreditDetails);
     }
 
 
@@ -29,14 +28,14 @@ public class CreditsListAdapter extends ArrayAdapter<PersonDetailListItem>
     {
         // Get the data item for this position
 
-        PersonDetailListItem personDetailListItem = getItem(position);
+        PersonCreditDetails personCreditDetails = getItem(position);
 
         // Check if an existing view is being reused, otherwise inflate the view
 
         if (convertView == null)
         {
 
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.listview_child, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.person_credits_item, parent, false);
 
         }
 
@@ -45,7 +44,7 @@ public class CreditsListAdapter extends ArrayAdapter<PersonDetailListItem>
 
 
         // Populate the data into the template view using the data object
-        nameTextView.setText(personDetailListItem.name);
+        nameTextView.setText(personCreditDetails.name);
 
         // Return the completed view to render on screen
         return convertView;

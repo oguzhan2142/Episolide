@@ -8,29 +8,32 @@ import android.widget.ListView;
 public abstract class ListviewHeightCalculator
 {
 
+
+
+
     public static void setHeight(ListView listView)
     {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) return;
+        ListAdapter mAdapter = listView.getAdapter();
 
         int totalHeight = 0;
-        View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++)
-        {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0) view.setLayoutParams(new
 
-                    ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT));
+        for (int i = 0; i < mAdapter.getCount(); i++) {
+            View mView = mAdapter.getView(i, null, listView);
 
-            view.measure(ViewGroup.LayoutParams.MATCH_PARENT, View.MeasureSpec.UNSPECIFIED);
-            totalHeight += view.getMeasuredHeight();
+            mView.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+
+            totalHeight += mView.getMeasuredHeight();
+
         }
+        float paddings = listView.getPaddingTop() + listView.getPaddingBottom();
+        totalHeight += paddings;
 
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-
+        params.height = totalHeight
+                + (listView.getDividerHeight() * (mAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
     }

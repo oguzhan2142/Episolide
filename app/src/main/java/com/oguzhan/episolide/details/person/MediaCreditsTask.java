@@ -37,8 +37,8 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
         JSONObject jsonObject = JsonReader.readJsonFromUrl(url);
 
 
-        List<PersonDetailListItem> movies = new ArrayList<>();
-        List<PersonDetailListItem> tvShows = new ArrayList<>();
+        List<PersonCreditDetails> movies = new ArrayList<>();
+        List<PersonCreditDetails> tvShows = new ArrayList<>();
 
         try
         {
@@ -51,18 +51,18 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
                 if (credit.getString("media_type").equals("tv"))
                 {
 
-                    PersonDetailListItem personDetailListItem = new PersonDetailListItem();
+                    PersonCreditDetails personCreditDetails = new PersonCreditDetails();
                     String name = credit.getString("name");
-                    personDetailListItem.name = name;
-                    tvShows.add(personDetailListItem);
+                    personCreditDetails.name = name;
+                    tvShows.add(personCreditDetails);
 
 
                 } else if (credit.getString("media_type").equals("movie"))
                 {
                     String name = credit.getString("title");
-                    PersonDetailListItem personDetailListItem = new PersonDetailListItem();
-                    personDetailListItem.name = name;
-                    movies.add(personDetailListItem);
+                    PersonCreditDetails personCreditDetails = new PersonCreditDetails();
+                    personCreditDetails.name = name;
+                    movies.add(personCreditDetails);
 
                 }
 
@@ -71,8 +71,12 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
 
 
 
-            CreditsListAdapter adapter = new CreditsListAdapter(
+            CreditsListAdapter moviesAdapter = new CreditsListAdapter(
                     personDetailActivity.get().getBaseContext(), movies);
+
+            CreditsListAdapter tvShowsAdapter = new CreditsListAdapter(
+                    personDetailActivity.get().getBaseContext(), tvShows
+            );
 
             Handler uiHandler = new Handler(Looper.getMainLooper());
             uiHandler.post(new Runnable()
@@ -80,8 +84,11 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
                 @Override
                 public void run()
                 {
-                    personDetailActivity.get().getMoviesListview().setAdapter(adapter);
-                    ListviewHeightCalculator.calculate(personDetailActivity.get().getMoviesListview());
+                    personDetailActivity.get().getMoviesListview().setAdapter(moviesAdapter);
+                    ListviewHeightCalculator.setHeight(personDetailActivity.get().getMoviesListview());
+
+                    personDetailActivity.get().getTvShowsListView().setAdapter(tvShowsAdapter);
+                    ListviewHeightCalculator.setHeight(personDetailActivity.get().getTvShowsListView());
                 }
             });
 

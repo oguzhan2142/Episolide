@@ -3,7 +3,6 @@ package com.oguzhan.episolide.details.person;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,6 +34,8 @@ public class PersonDetailActivity extends AppCompatActivity
     private LinearLayout profileImagesLinearLayout;
     private FrameLayout frameLayout;
     private ListView moviesListview;
+    private ListView tvShowsListView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,16 +47,7 @@ public class PersonDetailActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        posterViev = findViewById(R.id.profile_imageview);
-        nameView = findViewById(R.id.name_textview);
-        departmentView = findViewById(R.id.department_textview);
-        birthdayView = findViewById(R.id.birthday_textview);
-        birthPlaceView = findViewById(R.id.birth_place_textview);
-        biographyTextview = findViewById(R.id.biography_expandabletext);
-        profileImagesLinearLayout = findViewById(R.id.profile_images_linearlayout);
-        frameLayout = findViewById(R.id.profile_image_containenr);
-        moviesListview = findViewById(R.id.expandableListView);
-
+        initilizeComponents();
 
         frameLayout.setOnClickListener(new View.OnClickListener()
         {
@@ -92,6 +84,20 @@ public class PersonDetailActivity extends AppCompatActivity
         {
             e.printStackTrace();
         }
+    }
+
+    private void initilizeComponents()
+    {
+        posterViev = findViewById(R.id.profile_imageview);
+        nameView = findViewById(R.id.name_textview);
+        departmentView = findViewById(R.id.department_textview);
+        birthdayView = findViewById(R.id.birthday_textview);
+        birthPlaceView = findViewById(R.id.birth_place_textview);
+        biographyTextview = findViewById(R.id.biography_expandabletext);
+        profileImagesLinearLayout = findViewById(R.id.profile_images_linearlayout);
+        frameLayout = findViewById(R.id.profile_image_containenr);
+        moviesListview = findViewById(R.id.person_movies_listview);
+        tvShowsListView = findViewById(R.id.person_tv_shows_listview);
     }
 
     private void fiilKnownForImagesToLayout(JSONArray knownForArray, LinearLayout knownLinearLayout) throws JSONException
@@ -166,6 +172,11 @@ public class PersonDetailActivity extends AppCompatActivity
     public ListView getMoviesListview()
     {
         return moviesListview;
+    }
+
+    public ListView getTvShowsListView()
+    {
+        return tvShowsListView;
     }
 
     public ImageView getPosterViev()
