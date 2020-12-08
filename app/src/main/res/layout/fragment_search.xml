@@ -16,14 +16,13 @@
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
 
-        app:reverseLayout="true"
-        app:spanCount="2"
-
         app:layout_constraintBottom_toTopOf="@+id/search_edit_text_parent"
         app:layout_constraintEnd_toEndOf="parent"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        >
+        app:reverseLayout="true"
+        app:spanCount="2">
 
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -34,39 +33,55 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="30sp"
         android:layout_marginBottom="276dp"
-        android:background="@drawable/search_shape"
-        android:orientation="horizontal"
+
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.266"
         app:layout_constraintStart_toStartOf="parent">
 
-        <EditText
-            android:id="@+id/search_edit_text"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp"
-            android:layout_weight="3"
-            android:background="@android:color/transparent"
-            android:gravity="center_vertical"
-            android:hint="Bir dizi ismi..."
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textSize="24sp" />
+        <ProgressBar
+            android:id="@+id/horizontal_progress_search_fragment"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:visibility="gone" />
 
-        <ImageButton
-            android:id="@+id/search_btn"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="right"
-            android:layout_weight="1"
-            android:background="@drawable/search_btn_shape"
-            android:padding="8dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_baseline_search_24">
+            android:background="@drawable/search_shape"
+            android:orientation="horizontal">
 
-        </ImageButton>
+
+            <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="3"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
+                android:hint="Bir dizi ismi..."
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:textSize="24sp" />
+
+            <ImageButton
+                android:id="@+id/search_btn"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:layout_weight="1"
+                android:background="@drawable/search_btn_shape"
+                android:padding="8dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_baseline_search_24">
+
+            </ImageButton>
+        </LinearLayout>
     </LinearLayout>
 
 

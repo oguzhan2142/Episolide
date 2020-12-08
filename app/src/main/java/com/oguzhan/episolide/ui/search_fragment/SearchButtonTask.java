@@ -2,6 +2,7 @@ package com.oguzhan.episolide.ui.search_fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 
 import com.oguzhan.episolide.utils.JsonReader;
 
@@ -12,19 +13,21 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
 {
 
 
-    private final WeakReference<SearchFragment> homeFragmentWeakReference;
+    private final WeakReference<SearchFragment> searchFragment;
     private final WeakReference<Bundle> bundleWeakReference;
 
-    public SearchButtonTask(SearchFragment homeFragment)
+    public SearchButtonTask(SearchFragment searchFragment)
     {
-        homeFragmentWeakReference = new WeakReference<>(homeFragment);
-
         bundleWeakReference = new WeakReference<>(new Bundle());
+        this.searchFragment = new WeakReference<>(searchFragment);
+        this.searchFragment.get().getProgressBar().setVisibility(View.VISIBLE);
     }
 
     @Override
     protected Void doInBackground(String... strings)
     {
+
+
 
         String movieUrl = strings[0];
         String tvShowUrl = strings[1];
@@ -48,8 +51,9 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
     @Override
     protected void onPostExecute(Void aVoid)
     {
-        homeFragmentWeakReference.get().goSearchResultsCardsActivity(bundleWeakReference.get());
-        homeFragmentWeakReference.get().setSearching(false);
+        this.searchFragment.get().getProgressBar().setVisibility(View.GONE);
+        searchFragment.get().goSearchResultsCardsActivity(bundleWeakReference.get());
+        searchFragment.get().setSearching(false);
         super.onPostExecute(aVoid);
     }
 }

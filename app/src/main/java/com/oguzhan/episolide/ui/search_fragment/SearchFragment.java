@@ -1,15 +1,18 @@
 package com.oguzhan.episolide.ui.search_fragment;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,12 +26,12 @@ import com.oguzhan.episolide.utils.Statics;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchFragment extends Fragment
 {
 
-    public static final String PERSON_TAG = "PERSON";
-    public static final String TV_SHOW_TAG = "TV_SHOW";
-    public static final String MOVIE_TAG = "MOVIE";
 
     private final String MULTI_SEARCH_TEMPLATE = "https://api.themoviedb.org/3/search/multi?api_key=ee637fe7f604d38049e71cb513a8a04d&language=%s&query=%s&include_adult=true";
     private final String PEOPLE_SEARCH_TEMPLATE = "https://api.themoviedb.org/3/search/person?api_key=ee637fe7f604d38049e71cb513a8a04d&language=%s&query=%s";
@@ -37,10 +40,12 @@ public class SearchFragment extends Fragment
 
     private EditText editText;
     private ImageButton search_btn;
+    private ProgressBar progressBar;
 
     private boolean searching = false;
     private RecyclerView recyclerView;
     private JSONArray results;
+    private List<KeyboardSearchTask> keyboardSearchTasks;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
@@ -55,6 +60,9 @@ public class SearchFragment extends Fragment
     {
         editText = getView().findViewById(R.id.search_edit_text);
         search_btn = getView().findViewById(R.id.search_btn);
+        progressBar = getView().findViewById(R.id.horizontal_progress_search_fragment);
+
+        keyboardSearchTasks = new ArrayList<>();
 
         results = new JSONArray();
 
@@ -87,6 +95,20 @@ public class SearchFragment extends Fragment
         Keyboard.hideKeyboard(getActivity());
     }
 
+    private void cancelAllKeyboardTasks()
+    {
+        for (int i = 0; i < keyboardSearchTasks.size(); i++)
+        {
+            KeyboardSearchTask task = keyboardSearchTasks.get(i);
+
+            if (task.getStatus().equals(AsyncTask.Status.RUNNING))
+            {
+                task.cancel(true);
+            }
+        }
+
+    }
+
     private View.OnClickListener createSearchButtonOnClickListener()
     {
         return new View.OnClickListener()
@@ -94,6 +116,8 @@ public class SearchFragment extends Fragment
             @Override
             public void onClick(View v)
             {
+                cancelAllKeyboardTasks();
+                keyboardSearchTasks.clear();
                 doSearch();
             }
         };
@@ -110,7 +134,7 @@ public class SearchFragment extends Fragment
 
                 if (keyCode == KeyEvent.KEYCODE_ENTER)
                 {
-                    doSearch();
+                    search_btn.callOnClick();
                     return true;
                 }
 
@@ -118,6 +142,7 @@ public class SearchFragment extends Fragment
             }
         };
     }
+
 
     private TextWatcher createTextChangedListener()
     {
@@ -138,10 +163,10 @@ public class SearchFragment extends Fragment
             @Override
             public void afterTextChanged(Editable s)
             {
-
-
                 String url = String.format(MULTI_SEARCH_TEMPLATE, Statics.ENGLISH, s);
-                new KeyboardSearchTask(recyclerView).execute(url);
+                KeyboardSearchTask task = new KeyboardSearchTask(recyclerView);
+                task.execute(url);
+                keyboardSearchTasks.add(task);
             }
         };
     }
@@ -160,4 +185,8 @@ public class SearchFragment extends Fragment
         this.searching = searching;
     }
 
+    public ProgressBar getProgressBar()
+    {
+        return progressBar;
+    }
 }
