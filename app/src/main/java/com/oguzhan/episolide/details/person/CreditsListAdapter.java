@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.oguzhan.episolide.R;
+import com.oguzhan.episolide.utils.Utils;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public class CreditsListAdapter extends ArrayAdapter<PersonCreditDetails>
     public CreditsListAdapter(@NonNull Context context, List<PersonCreditDetails> personCreditDetails)
     {
         super(context, 0, personCreditDetails);
+        ;
     }
 
 
@@ -41,10 +43,15 @@ public class CreditsListAdapter extends ArrayAdapter<PersonCreditDetails>
 
         // Lookup view for data population
         TextView nameTextView = (TextView) convertView.findViewById(R.id.item_name_text);
+        TextView itemYearText = (TextView) convertView.findViewById(R.id.item_year_text);
+        TextView roleNameText = convertView.findViewById(R.id.item_role_name_text);
 
 
         // Populate the data into the template view using the data object
         nameTextView.setText(personCreditDetails.name);
+        itemYearText.setText(Utils.ExtractYear(personCreditDetails.firstAirDate));
+        roleNameText.setText(personCreditDetails.roleName);
+
 
         // Return the completed view to render on screen
         return convertView;

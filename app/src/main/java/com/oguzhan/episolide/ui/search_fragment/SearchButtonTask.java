@@ -51,7 +51,7 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
     @Override
     protected void onPostExecute(Void aVoid)
     {
-        this.searchFragment.get().getProgressBar().setVisibility(View.GONE);
+        this.searchFragment.get().getProgressBar().setVisibility(View.INVISIBLE);
         searchFragment.get().goSearchResultsCardsActivity(bundleWeakReference.get());
         searchFragment.get().setSearching(false);
         super.onPostExecute(aVoid);

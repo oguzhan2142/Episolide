@@ -6,6 +6,9 @@ public class PersonCreditDetails
 {
 
     public String name;
+    public String roleName;
+    public String firstAirDate;
+
 
     public PersonCreditDetails()
     {

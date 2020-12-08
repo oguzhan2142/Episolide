@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.utils.JsonReader;
 import com.oguzhan.episolide.utils.ListviewHeightCalculator;
 
@@ -23,6 +24,9 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
 
     private WeakReference<PersonDetailActivity> personDetailActivity;
 
+    List<PersonCreditDetails> movies = new ArrayList<>();
+    List<PersonCreditDetails> tvShows = new ArrayList<>();
+
     public MediaCreditsTask(PersonDetailActivity personDetailActivity)
     {
         this.personDetailActivity = new WeakReference<>(personDetailActivity);
@@ -37,9 +41,6 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
         JSONObject jsonObject = JsonReader.readJsonFromUrl(url);
 
 
-        List<PersonCreditDetails> movies = new ArrayList<>();
-        List<PersonCreditDetails> tvShows = new ArrayList<>();
-
         try
         {
             JSONArray jsonArray = jsonObject.getJSONArray("cast");
@@ -53,44 +54,32 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
 
                     PersonCreditDetails personCreditDetails = new PersonCreditDetails();
                     String name = credit.getString("name");
+                    String roleName = credit.getString("character");
+                    String firstAirDate = credit.getString("first_air_date");
+
                     personCreditDetails.name = name;
+                    personCreditDetails.roleName = roleName;
+                    personCreditDetails.firstAirDate = firstAirDate;
+
                     tvShows.add(personCreditDetails);
 
 
                 } else if (credit.getString("media_type").equals("movie"))
                 {
-                    String name = credit.getString("title");
                     PersonCreditDetails personCreditDetails = new PersonCreditDetails();
+                    String name = credit.getString("title");
+                    String roleName = credit.getString("character");
+                    String firstAirDate = credit.getString("release_date");
+
                     personCreditDetails.name = name;
+                    personCreditDetails.roleName = roleName;
+                    personCreditDetails.firstAirDate = firstAirDate;
+
                     movies.add(personCreditDetails);
 
                 }
 
             }
-
-
-
-
-            CreditsListAdapter moviesAdapter = new CreditsListAdapter(
-                    personDetailActivity.get().getBaseContext(), movies);
-
-            CreditsListAdapter tvShowsAdapter = new CreditsListAdapter(
-                    personDetailActivity.get().getBaseContext(), tvShows
-            );
-
-            Handler uiHandler = new Handler(Looper.getMainLooper());
-            uiHandler.post(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    personDetailActivity.get().getMoviesListview().setAdapter(moviesAdapter);
-                    ListviewHeightCalculator.setHeight(personDetailActivity.get().getMoviesListview());
-
-                    personDetailActivity.get().getTvShowsListView().setAdapter(tvShowsAdapter);
-                    ListviewHeightCalculator.setHeight(personDetailActivity.get().getTvShowsListView());
-                }
-            });
 
 
         } catch (JSONException e)
@@ -100,5 +89,36 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
 
 
         return null;
+    }
+
+
+    @Override
+    protected void onPostExecute(Void aVoid)
+    {
+        super.onPostExecute(aVoid);
+
+
+        CreditsListAdapter moviesAdapter = new CreditsListAdapter(
+                personDetailActivity.get().getBaseContext(), movies);
+
+        CreditsListAdapter tvShowsAdapter = new CreditsListAdapter(
+                personDetailActivity.get().getBaseContext(), tvShows
+        );
+
+
+        Handler uiHandler = new Handler(Looper.getMainLooper());
+        uiHandler.post(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+
+                personDetailActivity.get().getMoviesListview().setAdapter(moviesAdapter);
+                ListviewHeightCalculator.setListViewHeightBasedOnItems(personDetailActivity.get().getMoviesListview());
+
+                personDetailActivity.get().getTvShowsListView().setAdapter(tvShowsAdapter);
+                ListviewHeightCalculator.setListViewHeightBasedOnItems(personDetailActivity.get().getTvShowsListView());
+            }
+        });
     }
 }
