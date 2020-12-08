@@ -1,5 +1,6 @@
 package com.oguzhan.episolide.details.person;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -7,6 +8,7 @@ import android.os.Looper;
 import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.utils.JsonReader;
 import com.oguzhan.episolide.utils.ListviewHeightCalculator;
+import com.oguzhan.episolide.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +16,9 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -97,6 +102,9 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
     {
         super.onPostExecute(aVoid);
 
+
+        Collections.sort(movies);
+        Collections.sort(tvShows);
 
         CreditsListAdapter moviesAdapter = new CreditsListAdapter(
                 personDetailActivity.get().getBaseContext(), movies);
