@@ -11,6 +11,7 @@ public class PersonCreditDetails implements Comparable<PersonCreditDetails>
     public String name;
     public String roleName;
     public String firstAirDate;
+    public String job;
 
 
     public PersonCreditDetails()

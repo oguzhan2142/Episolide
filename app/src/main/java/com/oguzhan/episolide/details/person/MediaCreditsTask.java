@@ -1,14 +1,14 @@
 package com.oguzhan.episolide.details.person;
 
-import android.content.Intent;
+import android.media.tv.TvRecordingClient;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
+import android.view.View;
 
-import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.utils.JsonReader;
 import com.oguzhan.episolide.utils.ListviewHeightCalculator;
-import com.oguzhan.episolide.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,9 +16,7 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,8 +27,14 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
 
     private WeakReference<PersonDetailActivity> personDetailActivity;
 
-    List<PersonCreditDetails> movies = new ArrayList<>();
-    List<PersonCreditDetails> tvShows = new ArrayList<>();
+    // 10 movies as cast
+    private final String LISTVIEWS_HEADER_TEMPLATE = "%d %s as %s";
+
+
+    List<PersonCreditDetails> moviesCastList = new ArrayList<>();
+    List<PersonCreditDetails> tvShowsCastList = new ArrayList<>();
+    List<PersonCreditDetails> moviesCrewList = new ArrayList<>();
+    List<PersonCreditDetails> tvShowsCrewList = new ArrayList<>();
 
     public MediaCreditsTask(PersonDetailActivity personDetailActivity)
     {
@@ -42,17 +46,27 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
     {
         int id = integers[0];
         String url = String.format(Locale.US, CREDITS_URL_TEMPLATE, id);
-
+        Log.d("MESAJ", url);
         JSONObject jsonObject = JsonReader.readJsonFromUrl(url);
 
 
+        JSONArray castJsonArray = null;
+        JSONArray crewJsonArray = null;
         try
         {
-            JSONArray jsonArray = jsonObject.getJSONArray("cast");
+            castJsonArray = jsonObject.getJSONArray("cast");
+            crewJsonArray = jsonObject.getJSONArray("crew");
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
 
-            for (int i = 0; i < jsonArray.length(); i++)
+        for (int i = 0; i < castJsonArray.length(); i++)
+        {
+
+            try
             {
-                JSONObject credit = jsonArray.getJSONObject(i);
+                JSONObject credit = castJsonArray.getJSONObject(i);
 
                 if (credit.getString("media_type").equals("tv"))
                 {
@@ -66,8 +80,7 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
                     personCreditDetails.roleName = roleName;
                     personCreditDetails.firstAirDate = firstAirDate;
 
-                    tvShows.add(personCreditDetails);
-
+                    tvShowsCastList.add(personCreditDetails);
 
                 } else if (credit.getString("media_type").equals("movie"))
                 {
@@ -79,17 +92,55 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
                     personCreditDetails.name = name;
                     personCreditDetails.roleName = roleName;
                     personCreditDetails.firstAirDate = firstAirDate;
-
-                    movies.add(personCreditDetails);
-
+                    moviesCastList.add(personCreditDetails);
                 }
 
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
             }
 
+        }
 
-        } catch (JSONException e)
+
+        for (int i = 0; i < crewJsonArray.length(); i++)
         {
-            e.printStackTrace();
+            try
+            {
+                JSONObject credit = crewJsonArray.getJSONObject(i);
+                if (credit.getString("media_type").equals("tv"))
+                {
+                    PersonCreditDetails personCreditDetails = new PersonCreditDetails();
+                    String name = credit.getString("name");
+                    String job = credit.getString("job");
+                    String firstAirDate = credit.getString("first_air_date");
+
+                    personCreditDetails.name = name;
+                    personCreditDetails.job = job;
+                    personCreditDetails.firstAirDate = firstAirDate;
+
+                    tvShowsCrewList.add(personCreditDetails);
+
+
+                } else if (credit.getString("media_type").equals("movie"))
+                {
+
+                    PersonCreditDetails personCreditDetails = new PersonCreditDetails();
+                    String name = credit.getString("title");
+                    String job = credit.getString("job");
+                    String firstAirDate = credit.getString("release_date");
+
+                    personCreditDetails.name = name;
+                    personCreditDetails.job = job;
+                    personCreditDetails.firstAirDate = firstAirDate;
+
+                    moviesCrewList.add(personCreditDetails);
+                }
+            } catch (JSONException e)
+            {
+
+                e.printStackTrace();
+            }
         }
 
 
@@ -103,15 +154,22 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
         super.onPostExecute(aVoid);
 
 
-        Collections.sort(movies);
-        Collections.sort(tvShows);
+        setLIstsHeaders();
+        sortListsByDate();
+        makeInvisibleEmptyLists();
 
-        CreditsListAdapter moviesAdapter = new CreditsListAdapter(
-                personDetailActivity.get().getBaseContext(), movies);
+        CreditsListAdapter moviesCastAdapter = new CreditsListAdapter(
+                personDetailActivity.get().getBaseContext(), moviesCastList);
 
-        CreditsListAdapter tvShowsAdapter = new CreditsListAdapter(
-                personDetailActivity.get().getBaseContext(), tvShows
+        CreditsListAdapter tvShowsCastAdapter = new CreditsListAdapter(
+                personDetailActivity.get().getBaseContext(), tvShowsCastList
         );
+
+        CreditsListAdapter moviesCrewAdapter = new CreditsListAdapter(
+                personDetailActivity.get().getBaseContext(), moviesCrewList);
+
+        CreditsListAdapter tvShowsCrewAdapter = new CreditsListAdapter(
+                personDetailActivity.get().getBaseContext(), tvShowsCrewList);
 
 
         Handler uiHandler = new Handler(Looper.getMainLooper());
@@ -121,12 +179,66 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
             public void run()
             {
 
-                personDetailActivity.get().getMoviesListview().setAdapter(moviesAdapter);
-                ListviewHeightCalculator.setListViewHeightBasedOnItems(personDetailActivity.get().getMoviesListview());
+                personDetailActivity.get().getMoviesCastListview().setAdapter(moviesCastAdapter);
+                ListviewHeightCalculator.setListViewHeightBasedOnItems(personDetailActivity.get().getMoviesCastListview());
 
-                personDetailActivity.get().getTvShowsListView().setAdapter(tvShowsAdapter);
-                ListviewHeightCalculator.setListViewHeightBasedOnItems(personDetailActivity.get().getTvShowsListView());
+                personDetailActivity.get().getTvShowsCastListView().setAdapter(tvShowsCastAdapter);
+                ListviewHeightCalculator.setListViewHeightBasedOnItems(personDetailActivity.get().getTvShowsCastListView());
+
+                personDetailActivity.get().getTvShowsCrewListView().setAdapter(tvShowsCrewAdapter);
+                ListviewHeightCalculator.setListViewHeightBasedOnItems(personDetailActivity.get().getTvShowsCrewListView());
+
+
+                personDetailActivity.get().getMoviesCrewListview().setAdapter(moviesCrewAdapter);
+                ListviewHeightCalculator.setListViewHeightBasedOnItems(personDetailActivity.get().getMoviesCrewListview());
+
+
+
+
             }
         });
+    }
+
+    private void makeInvisibleEmptyLists()
+    {
+        if (moviesCastList.size() == 0)
+        {
+            personDetailActivity.get().getMoviesCastListviewParent().setVisibility(View.GONE);
+        }
+        if (tvShowsCastList.size() == 0)
+        {
+            personDetailActivity.get().getTvShowsCastListviewParent().setVisibility(View.GONE);
+        }
+        if (moviesCrewList.size() == 0)
+        {
+            personDetailActivity.get().getMoviesCrewListviewParent().setVisibility(View.GONE);
+        }
+        if (tvShowsCrewList.size() == 0)
+        {
+            personDetailActivity.get().getTvShowsCrewListviewParent().setVisibility(View.GONE);
+        }
+    }
+
+    private void sortListsByDate()
+    {
+        Collections.sort(moviesCastList);
+        Collections.sort(tvShowsCastList);
+        Collections.sort(moviesCrewList);
+        Collections.sort(tvShowsCrewList);
+    }
+
+    private void setLIstsHeaders()
+    {
+        personDetailActivity.get().getMoviesCastListTextview().setText(
+                String.format(Locale.US, LISTVIEWS_HEADER_TEMPLATE, moviesCastList.size(), "Movies", "Cast"));
+        personDetailActivity.get().getTvShowsCastListTextview().setText(
+                String.format(Locale.US, LISTVIEWS_HEADER_TEMPLATE, tvShowsCastList.size(), "Tv Shows", "Cast"));
+
+
+        personDetailActivity.get().getMoviesCrewListTextview().setText(
+                String.format(Locale.US, LISTVIEWS_HEADER_TEMPLATE, moviesCrewList.size(), "Movies", "Crew"));
+
+        personDetailActivity.get().getTvShowsCrewListTextview().setText(
+                String.format(Locale.US, LISTVIEWS_HEADER_TEMPLATE, tvShowsCrewList.size(), "Tv Shows", "Crew"));
     }
 }

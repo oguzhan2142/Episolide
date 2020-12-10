@@ -33,8 +33,18 @@ public class PersonDetailActivity extends AppCompatActivity
     private ExpandableTextView biographyTextview;
     private LinearLayout profileImagesLinearLayout;
     private FrameLayout frameLayout;
-    private ListView moviesListview;
-    private ListView tvShowsListView;
+    private ListView moviesCastListview;
+    private ListView tvShowsCastListView;
+    private TextView moviesCastListTextview;
+    private TextView tvShowsCastListTextview;
+    private LinearLayout moviesCastListviewParent;
+    private LinearLayout tvShowsCastListviewParent;
+    private ListView moviesCrewListview;
+    private ListView tvShowsCrewListView;
+    private TextView moviesCrewListTextview;
+    private TextView tvShowsCrewListTextview;
+    private LinearLayout moviesCrewListviewParent;
+    private LinearLayout tvShowsCrewListviewParent;
 
 
     @Override
@@ -96,9 +106,22 @@ public class PersonDetailActivity extends AppCompatActivity
         biographyTextview = findViewById(R.id.biography_expandabletext);
         profileImagesLinearLayout = findViewById(R.id.profile_images_linearlayout);
         frameLayout = findViewById(R.id.profile_image_containenr);
-        moviesListview = findViewById(R.id.person_movies_listview);
-        tvShowsListView = findViewById(R.id.person_tv_shows_listview);
+        moviesCastListview = findViewById(R.id.person_cast_movies_listview);
+        tvShowsCastListView = findViewById(R.id.person_cast_tv_shows_listview);
+        tvShowsCastListTextview = findViewById(R.id.person_cast_tvshows_header_text);
+        moviesCastListTextview = findViewById(R.id.person_cast_movies_header_text);
+        moviesCastListviewParent = findViewById(R.id.person_cast_movies_parent);
+        tvShowsCastListviewParent = findViewById(R.id.person_cast_tv_shows_parent);
+
+        moviesCrewListview = findViewById(R.id.person_crew_movies_listview);
+        tvShowsCrewListView = findViewById(R.id.person_crew_tv_shows_listview);
+        tvShowsCrewListTextview = findViewById(R.id.person_crew_tvshows_header_text);
+        moviesCrewListTextview = findViewById(R.id.person_crew_movies_header_text);
+        moviesCrewListviewParent = findViewById(R.id.person_crew_movies_parent);
+        tvShowsCrewListviewParent = findViewById(R.id.person_crew_tv_shows_parent);
     }
+
+
 
     private void fiilKnownForImagesToLayout(JSONArray knownForArray, LinearLayout knownLinearLayout) throws JSONException
     {
@@ -169,14 +192,14 @@ public class PersonDetailActivity extends AppCompatActivity
     }
 
 
-    public ListView getMoviesListview()
+    public ListView getMoviesCastListview()
     {
-        return moviesListview;
+        return moviesCastListview;
     }
 
-    public ListView getTvShowsListView()
+    public ListView getTvShowsCastListView()
     {
-        return tvShowsListView;
+        return tvShowsCastListView;
     }
 
     public ImageView getPosterViev()
@@ -212,5 +235,55 @@ public class PersonDetailActivity extends AppCompatActivity
     public LinearLayout getProfileImagesLinearLayout()
     {
         return profileImagesLinearLayout;
+    }
+
+    public TextView getMoviesCastListTextview()
+    {
+        return moviesCastListTextview;
+    }
+
+    public TextView getTvShowsCastListTextview()
+    {
+        return tvShowsCastListTextview;
+    }
+
+    public LinearLayout getMoviesCastListviewParent()
+    {
+        return moviesCastListviewParent;
+    }
+
+    public LinearLayout getTvShowsCastListviewParent()
+    {
+        return tvShowsCastListviewParent;
+    }
+
+    public ListView getMoviesCrewListview()
+    {
+        return moviesCrewListview;
+    }
+
+    public ListView getTvShowsCrewListView()
+    {
+        return tvShowsCrewListView;
+    }
+
+    public TextView getMoviesCrewListTextview()
+    {
+        return moviesCrewListTextview;
+    }
+
+    public TextView getTvShowsCrewListTextview()
+    {
+        return tvShowsCrewListTextview;
+    }
+
+    public LinearLayout getMoviesCrewListviewParent()
+    {
+        return moviesCrewListviewParent;
+    }
+
+    public LinearLayout getTvShowsCrewListviewParent()
+    {
+        return tvShowsCrewListviewParent;
     }
 }

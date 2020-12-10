@@ -1,8 +1,10 @@
 package com.oguzhan.episolide.details.person;
 
 import android.os.AsyncTask;
+import android.view.View;
 
 import com.oguzhan.episolide.utils.JsonReader;
+import com.oguzhan.episolide.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,8 +47,12 @@ public class DetailTask extends AsyncTask<Integer, Void, JSONObject>
             String department = jsonObject.getString("known_for_department");
             String biography = jsonObject.getString("biography");
 
+
+            if (biography.equals(""))
+                personDetailActivity.get().getBiographyTextview().setVisibility(View.GONE);
+
             personDetailActivity.get().getNameView().setText(name);
-            personDetailActivity.get().getBirthdayView().setText(birthday);
+            personDetailActivity.get().getBirthdayView().setText(Utils.ConvertDateAsFormatted(birthday));
             personDetailActivity.get().getBirthPlaceView().setText(placeOfBirth);
             personDetailActivity.get().getDepartmentView().setText(department);
             personDetailActivity.get().getBiographyTextview().setText(biography);
