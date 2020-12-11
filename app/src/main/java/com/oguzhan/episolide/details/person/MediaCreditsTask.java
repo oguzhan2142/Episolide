@@ -1,5 +1,6 @@
 package com.oguzhan.episolide.details.person;
 
+import android.app.Person;
 import android.media.tv.TvRecordingClient;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -70,29 +71,23 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
 
                 if (credit.getString("media_type").equals("tv"))
                 {
-
-                    PersonCreditDetails personCreditDetails = new PersonCreditDetails();
                     String name = credit.getString("name");
                     String roleName = credit.getString("character");
                     String firstAirDate = credit.getString("first_air_date");
 
-                    personCreditDetails.name = name;
-                    personCreditDetails.roleName = roleName;
-                    personCreditDetails.firstAirDate = firstAirDate;
+                    PersonCreditDetails personCredit = PersonCreditDetails.CastInstance(name, roleName, firstAirDate);
 
-                    tvShowsCastList.add(personCreditDetails);
+                    tvShowsCastList.add(personCredit);
 
                 } else if (credit.getString("media_type").equals("movie"))
                 {
-                    PersonCreditDetails personCreditDetails = new PersonCreditDetails();
                     String name = credit.getString("title");
                     String roleName = credit.getString("character");
                     String firstAirDate = credit.getString("release_date");
 
-                    personCreditDetails.name = name;
-                    personCreditDetails.roleName = roleName;
-                    personCreditDetails.firstAirDate = firstAirDate;
-                    moviesCastList.add(personCreditDetails);
+                    PersonCreditDetails personCredit = PersonCreditDetails.CastInstance(name, roleName, firstAirDate);
+
+                    moviesCastList.add(personCredit);
                 }
 
             } catch (JSONException e)
@@ -110,31 +105,22 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
                 JSONObject credit = crewJsonArray.getJSONObject(i);
                 if (credit.getString("media_type").equals("tv"))
                 {
-                    PersonCreditDetails personCreditDetails = new PersonCreditDetails();
                     String name = credit.getString("name");
                     String job = credit.getString("job");
                     String firstAirDate = credit.getString("first_air_date");
 
-                    personCreditDetails.name = name;
-                    personCreditDetails.job = job;
-                    personCreditDetails.firstAirDate = firstAirDate;
-
-                    tvShowsCrewList.add(personCreditDetails);
+                    PersonCreditDetails personCredit = PersonCreditDetails.CrewInstance(name, job, firstAirDate);
+                    tvShowsCrewList.add(personCredit);
 
 
                 } else if (credit.getString("media_type").equals("movie"))
                 {
-
-                    PersonCreditDetails personCreditDetails = new PersonCreditDetails();
                     String name = credit.getString("title");
                     String job = credit.getString("job");
                     String firstAirDate = credit.getString("release_date");
 
-                    personCreditDetails.name = name;
-                    personCreditDetails.job = job;
-                    personCreditDetails.firstAirDate = firstAirDate;
-
-                    moviesCrewList.add(personCreditDetails);
+                    PersonCreditDetails personCredit = PersonCreditDetails.CrewInstance(name, job, firstAirDate);
+                    moviesCrewList.add(personCredit);
                 }
             } catch (JSONException e)
             {
@@ -191,8 +177,6 @@ public class MediaCreditsTask extends AsyncTask<Integer, Void, Void>
 
                 personDetailActivity.get().getMoviesCrewListview().setAdapter(moviesCrewAdapter);
                 ListviewHeightCalculator.setListViewHeightBasedOnItems(personDetailActivity.get().getMoviesCrewListview());
-
-
 
 
             }

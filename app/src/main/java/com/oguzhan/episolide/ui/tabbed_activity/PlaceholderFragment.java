@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.oguzhan.MovieDetailActivity;
+import com.oguzhan.episolide.details.movie.MovieDetailActivity;
 import com.oguzhan.episolide.PageManager;
 import com.oguzhan.episolide.details.person.PersonDetailActivity;
 import com.oguzhan.episolide.R;

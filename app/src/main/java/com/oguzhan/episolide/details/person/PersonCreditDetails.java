@@ -10,17 +10,26 @@ public class PersonCreditDetails implements Comparable<PersonCreditDetails>
 
     public String name;
     public String roleName;
-    public String firstAirDate;
     public String job;
+    public String firstAirDate;
 
 
-    public PersonCreditDetails()
+    public static PersonCreditDetails CastInstance(String name, String roleName, String firstAirDate)
     {
+        PersonCreditDetails instance = new PersonCreditDetails();
+        instance.name = name;
+        instance.roleName = roleName;
+        instance.firstAirDate = firstAirDate;
+        return instance;
     }
 
-    public PersonCreditDetails(String name)
+    public static PersonCreditDetails CrewInstance(String name, String job, String firstAirDate)
     {
-        this.name = name;
+        PersonCreditDetails instance = new PersonCreditDetails();
+        instance.name = name;
+        instance.job = job;
+        instance.firstAirDate = firstAirDate;
+        return instance;
     }
 
 

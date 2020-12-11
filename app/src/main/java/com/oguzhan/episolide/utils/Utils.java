@@ -24,4 +24,28 @@ public abstract class Utils
             return movieDbDate;
         }
     }
+
+
+    public static String ConvertBudgedAsFormatted(String budged)
+    {
+
+
+        StringBuilder builder = new StringBuilder();
+
+
+        for (int i = budged.length() - 1, commaCounter = 1; i >= 0; i--, commaCounter++)
+        {
+            char ch = budged.charAt(i);
+            builder.append(ch);
+
+            if (commaCounter == 0) continue;
+
+            if (commaCounter % 3 == 0)
+            {
+                builder.append(",");
+            }
+        }
+
+        return builder.reverse().toString() + "$";
+    }
 }

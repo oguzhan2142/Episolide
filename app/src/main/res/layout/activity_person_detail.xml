@@ -81,21 +81,21 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Acting"
-                        android:textSize="18sp" />
+                        android:textSize="@dimen/text_size" />
 
                     <TextView
                         android:id="@+id/birthday_textview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Birthday (30)"
-                        android:textSize="18sp" />
+                        android:textSize="@dimen/text_size" />
 
                     <TextView
                         android:id="@+id/birth_place_textview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Place of Birth"
-                        android:textSize="18sp" />
+                        android:textSize="@dimen/text_size" />
 
                 </LinearLayout>
 
@@ -110,7 +110,7 @@
                 android:background="@drawable/detail_section_background_shape"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="20dp"
-                android:textSize="18sp" />
+                android:textSize="@dimen/text_size" />
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
