@@ -1,5 +1,7 @@
 package com.oguzhan.episolide.details.movie;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -8,11 +10,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextClock;
 import android.widget.TextView;
 
 import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.ui.tabbed_activity.PlaceholderFragment;
+import com.oguzhan.episolide.utils.ExpandableTextView;
 import com.oguzhan.episolide.utils.Statics;
 import com.squareup.picasso.Picasso;
 
@@ -22,6 +31,7 @@ import org.json.JSONObject;
 public class MovieDetailActivity extends AppCompatActivity
 {
 
+    public static final String WEB_ACTIVITY_INTENT_TAG = "URL";
 
     private ImageView posterImageView;
     private TextView releaseDate;
@@ -29,9 +39,13 @@ public class MovieDetailActivity extends AppCompatActivity
     private TextView budged;
     private TextView voteAverage;
 
-    private TextView overview;
+    private ExpandableTextView overview;
 
-    private TextView productionCountries;
+    private ListView productionCountries;
+    private ListView productionCompanies;
+    private TextView homepageUrl;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,6 +65,8 @@ public class MovieDetailActivity extends AppCompatActivity
         voteAverage = findViewById(R.id.vote_average);
         productionCountries = findViewById(R.id.production_countries);
         overview = findViewById(R.id.overview_text);
+        productionCompanies = findViewById(R.id.production_companies);
+        homepageUrl = findViewById(R.id.homepage_url);
 
 
         String data = getIntent().getStringExtra(PlaceholderFragment.DETAIL_ACTIVITY_DATA_TAG);
@@ -70,6 +86,19 @@ public class MovieDetailActivity extends AppCompatActivity
             new MovieDetailTask(this).execute(id);
 
 
+
+
+
+            homepageUrl.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    Intent intent = new Intent(MovieDetailActivity.this, WebActivity.class);
+                    intent.putExtra(WEB_ACTIVITY_INTENT_TAG, homepageUrl.getText().toString());
+                    startActivity(intent);
+                }
+            });
         } catch (JSONException e)
         {
             e.printStackTrace();
@@ -111,13 +140,23 @@ public class MovieDetailActivity extends AppCompatActivity
         return voteAverage;
     }
 
-    public TextView getProductionCountries()
+    public ListView getProductionCountries()
     {
         return productionCountries;
     }
 
-    public TextView getOverview()
+    public ExpandableTextView getOverview()
     {
         return overview;
+    }
+
+    public ListView getProductionCompanies()
+    {
+        return productionCompanies;
+    }
+
+    public TextView getHomepageUrl()
+    {
+        return homepageUrl;
     }
 }

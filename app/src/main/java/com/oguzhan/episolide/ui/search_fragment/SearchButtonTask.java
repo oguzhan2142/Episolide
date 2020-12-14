@@ -2,9 +2,13 @@ package com.oguzhan.episolide.ui.search_fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.oguzhan.episolide.utils.JsonReader;
+
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.Objects;
@@ -14,11 +18,11 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
 
 
     private final WeakReference<SearchFragment> searchFragment;
-    private final WeakReference<Bundle> bundleWeakReference;
+
 
     public SearchButtonTask(SearchFragment searchFragment)
     {
-        bundleWeakReference = new WeakReference<>(new Bundle());
+
         this.searchFragment = new WeakReference<>(searchFragment);
         this.searchFragment.get().getProgressBar().setVisibility(View.VISIBLE);
     }
@@ -28,32 +32,35 @@ public class SearchButtonTask extends AsyncTask<String, Void, Void>
     {
 
 
-
         String movieUrl = strings[0];
         String tvShowUrl = strings[1];
         String personUrl = strings[2];
 
-        String movies = Objects.requireNonNull(JsonReader.readJsonFromUrl(movieUrl)).toString();
-        String tvShows = Objects.requireNonNull(JsonReader.readJsonFromUrl(tvShowUrl)).toString();
-        String persons = Objects.requireNonNull(JsonReader.readJsonFromUrl(personUrl)).toString();
+        JSONObject movies = JsonReader.readJsonFromUrl(movieUrl);
+        JSONObject tvShows = JsonReader.readJsonFromUrl(tvShowUrl);
+        JSONObject persons = JsonReader.readJsonFromUrl(personUrl);
 
+        if (movies == null || tvShows == null || persons == null)
+        {
+            Toast.makeText(searchFragment.get().getContext(), "Arama Hatasi", Toast.LENGTH_SHORT).show();
+            return null;
+        }
 
-        String[] datas = new String[]{movies, tvShows, persons};
+        String[] datas = new String[]{movies.toString(), tvShows.toString(), persons.toString()};
         String[] urls = new String[]{movieUrl, tvShowUrl, personUrl};
 
-        bundleWeakReference.get().putStringArray("datas", datas);
-        bundleWeakReference.get().putStringArray("urls", urls);
+        Bundle bundle = new Bundle();
 
+
+        bundle.putStringArray("datas", datas);
+        bundle.putStringArray("urls", urls);
+
+        this.searchFragment.get().getProgressBar().setVisibility(View.INVISIBLE);
+        searchFragment.get().goSearchResultsCardsActivity(bundle);
+        searchFragment.get().setSearching(false);
         return null;
     }
 
 
-    @Override
-    protected void onPostExecute(Void aVoid)
-    {
-        this.searchFragment.get().getProgressBar().setVisibility(View.INVISIBLE);
-        searchFragment.get().goSearchResultsCardsActivity(bundleWeakReference.get());
-        searchFragment.get().setSearching(false);
-        super.onPostExecute(aVoid);
-    }
+
 }
