@@ -4,10 +4,8 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 
 import com.oguzhan.episolide.utils.JsonReader;
-import com.oguzhan.episolide.utils.ListviewHeightCalculator;
 import com.oguzhan.episolide.utils.Statics;
 import com.oguzhan.episolide.utils.Utils;
 import com.squareup.picasso.Picasso;
@@ -125,21 +123,16 @@ public class MovieDetailTask extends AsyncTask<Integer, Void, Void>
                     movieDetailActivity.get().getHomepageUrl().setText(homePageUrl);
 
 
-                    ListAdapter countriesAdapter = new ProductionAdapter(
-                            movieDetailActivity.get().getBaseContext(), productionCountries);
-                    movieDetailActivity.get().getProductionCountries().setAdapter(countriesAdapter);
-                    ListviewHeightCalculator.setListViewHeightBasedOnItems(movieDetailActivity.get().getProductionCountries());
-//
-//
-//                    ProductionAdapter companiesAdapter = new ProductionAdapter(
-//                            movieDetailActivity.get().getBaseContext(), productionCompanies);
-//                    movieDetailActivity.get().getProductionCompanies().setAdapter(companiesAdapter);
-//                    ListviewHeightCalculator.setListViewHeightBasedOnItems(movieDetailActivity.get().getProductionCompanies());
+                    for (int i = 0; i < productionCountries.size(); i++)
+                    {
+                        LinearLayout content = movieDetailActivity.get().createProductionItemLayout(productionCountries.get(i).name, productionCountries.get(i).imageURL);
+                        movieDetailActivity.get().getProductionCountries().addView(content);
+                    }
 
                     for (int i = 0; i < productionCompanies.size(); i++)
                     {
                         LinearLayout content = movieDetailActivity.get().createProductionItemLayout(productionCompanies.get(i).name, productionCompanies.get(i).imageURL);
-                        movieDetailActivity.get().getProductionComp().addView(content);
+                        movieDetailActivity.get().getProductionCompanies().addView(content);
                     }
 
                 }

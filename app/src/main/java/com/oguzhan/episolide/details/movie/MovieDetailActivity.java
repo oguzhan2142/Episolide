@@ -1,29 +1,20 @@
 package com.oguzhan.episolide.details.movie;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.TextClock;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.ui.tabbed_activity.PlaceholderFragment;
 import com.oguzhan.episolide.utils.ExpandableTextView;
@@ -46,10 +37,10 @@ public class MovieDetailActivity extends AppCompatActivity
 
     private ExpandableTextView overview;
 
-    private ListView productionCountries;
-    private ListView productionCompanies;
-    private TextView homepageUrl;
+    private LinearLayout productionCountries;
+    private LinearLayout productionCompanies;
 
+    private TextView homepageUrl;
 
     private TextView collectionHeader;
     private ImageView collectionPoster;
@@ -57,7 +48,6 @@ public class MovieDetailActivity extends AppCompatActivity
     private ImageButton collectionExpandBtn;
     private HorizontalScrollView collectionScrollview;
     private LinearLayout collectionScrolviewContainer;
-    private LinearLayout productionComp;
 
 
     @Override
@@ -78,7 +68,7 @@ public class MovieDetailActivity extends AppCompatActivity
         voteAverage = findViewById(R.id.vote_average);
         productionCountries = findViewById(R.id.production_countries);
 //        productionCompanies = findViewById(R.id.production_companies);
-        productionComp = findViewById(R.id.production_com);
+        productionCompanies = findViewById(R.id.production_com);
         overview = findViewById(R.id.overview_text);
         homepageUrl = findViewById(R.id.homepage_url);
 
@@ -222,7 +212,7 @@ public class MovieDetailActivity extends AppCompatActivity
         return voteAverage;
     }
 
-    public ListView getProductionCountries()
+    public LinearLayout getProductionCountries()
     {
         return productionCountries;
     }
@@ -232,10 +222,6 @@ public class MovieDetailActivity extends AppCompatActivity
         return overview;
     }
 
-    public ListView getProductionCompanies()
-    {
-        return productionCompanies;
-    }
 
     public TextView getHomepageUrl()
     {
@@ -258,8 +244,8 @@ public class MovieDetailActivity extends AppCompatActivity
     }
 
 
-    public LinearLayout getProductionComp()
+    public LinearLayout getProductionCompanies()
     {
-        return productionComp;
+        return productionCompanies;
     }
 }
