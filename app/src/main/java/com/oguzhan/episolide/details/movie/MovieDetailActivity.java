@@ -57,6 +57,8 @@ public class MovieDetailActivity extends AppCompatActivity
     private ImageButton collectionExpandBtn;
     private HorizontalScrollView collectionScrollview;
     private LinearLayout collectionScrolviewContainer;
+    private LinearLayout productionComp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -75,8 +77,9 @@ public class MovieDetailActivity extends AppCompatActivity
         budged = findViewById(R.id.budged);
         voteAverage = findViewById(R.id.vote_average);
         productionCountries = findViewById(R.id.production_countries);
+//        productionCompanies = findViewById(R.id.production_companies);
+        productionComp = findViewById(R.id.production_com);
         overview = findViewById(R.id.overview_text);
-        productionCompanies = findViewById(R.id.production_companies);
         homepageUrl = findViewById(R.id.homepage_url);
 
         collectionHeader = findViewById(R.id.collection_header);
@@ -86,8 +89,8 @@ public class MovieDetailActivity extends AppCompatActivity
         collectionScrolviewContainer = findViewById(R.id.collection_scrollview_container);
         collectionExpandBtn = findViewById(R.id.expand_collection_btn);
 
-
         String data = getIntent().getStringExtra(PlaceholderFragment.DETAIL_ACTIVITY_DATA_TAG);
+
         try
         {
             JSONObject jsonData = new JSONObject(data);
@@ -125,12 +128,28 @@ public class MovieDetailActivity extends AppCompatActivity
     }
 
 
+    public LinearLayout createProductionItemLayout(String name, String imageURL)
+    {
+        LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.production_listitem, null);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(0, 10, 0, 10);
+
+        TextView nameview = linearLayout.findViewById(R.id.production_name);
+        ImageView imageview = linearLayout.findViewById(R.id.production_image);
+
+        nameview.setText(name);
+        Picasso.get().load(imageURL).into(imageview);
+
+        linearLayout.setLayoutParams(params);
+        return linearLayout;
+    }
+
     public void addContentToCollectionContainer(LinearLayout content)
     {
         collectionScrolviewContainer.addView(content);
     }
 
-    public LinearLayout createScrollviewContent(String posterURL,String nameOfCollection ,String releaseDate)
+    public LinearLayout createScrollviewContent(String posterURL, String nameOfCollection, String releaseDate)
     {
         LinearLayout linearLayout = new LinearLayout(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
@@ -165,7 +184,6 @@ public class MovieDetailActivity extends AppCompatActivity
         linearLayout.addView(dateText);
         linearLayout.addView(imageView);
         linearLayout.addView(nameText);
-
 
 
         return linearLayout;
@@ -237,5 +255,11 @@ public class MovieDetailActivity extends AppCompatActivity
     public TextView getCollectionOverview()
     {
         return collectionOverview;
+    }
+
+
+    public LinearLayout getProductionComp()
+    {
+        return productionComp;
     }
 }

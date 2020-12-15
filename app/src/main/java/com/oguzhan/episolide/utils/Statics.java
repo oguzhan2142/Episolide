@@ -18,6 +18,10 @@ public class Statics
     public static String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/";
     public static String COLLECTION_URL_TEMPLATE = "https://api.themoviedb.org/3/collection/%d?api_key=ee637fe7f604d38049e71cb513a8a04d";
 
+
+    // format it with country code and size
+    public static String COUNTRY_IMAGES_TEMPLATE = "https://www.countryflags.io/%s/flat/%d.png";
+
     public static String[] BACKDROP_SIZES = {"w300", "w780", "w1280", "original"};
     public static String[] POSTER_SIZES = {"w92", "w154", "w185", "w342", "w500", "w780", "original"};
     public static String[] PROFILE_SIZES = {"w45", "w185", "h632", "original"};

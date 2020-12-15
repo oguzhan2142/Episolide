@@ -3,10 +3,9 @@ package com.oguzhan.episolide.details.movie;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 
-import com.oguzhan.episolide.R;
 import com.oguzhan.episolide.utils.JsonReader;
 import com.oguzhan.episolide.utils.ListviewHeightCalculator;
 import com.oguzhan.episolide.utils.Statics;
@@ -47,8 +46,8 @@ public class MovieDetailTask extends AsyncTask<Integer, Void, Void>
         {
             //
             JSONObject belongs_to_collection = root.getJSONObject("belongs_to_collection");
-            String nameOfCollection = belongs_to_collection.getString("name");
-            String posterPathOfCollection = belongs_to_collection.getString("poster_path");
+//            String nameOfCollection = belongs_to_collection.getString("name");
+//            String posterPathOfCollection = belongs_to_collection.getString("poster_path");
             int idOfCollection = belongs_to_collection.getInt("id");
 
             new CollectionTask(movieDetailActivity.get()).execute(idOfCollection);
@@ -80,22 +79,30 @@ public class MovieDetailTask extends AsyncTask<Integer, Void, Void>
 
 
             JSONArray production_companies = root.getJSONArray("production_companies");
-            List<ProductionCompany> productionCompanies = new ArrayList<>();
+            List<ProductionInfo> productionCompanies = new ArrayList<>();
             for (int i = 0; i < production_companies.length(); i++)
             {
                 JSONObject company = production_companies.getJSONObject(i);
                 String productionName = company.getString("name");
-                String productionLogoPath = company.getString("logo_path");
-                productionCompanies.add(new ProductionCompany(productionName, productionLogoPath));
+                String imagePath = company.getString("logo_path");
+                String imageURL = Statics.BASE_IMAGE_URL + Statics.LOGO_SIZES[1] + imagePath;
+
+                productionCompanies.add(new ProductionInfo(productionName, imageURL));
             }
 
             JSONArray production_countries = root.getJSONArray("production_countries");
-            String[] countries = new String[production_countries.length()];
+            List<ProductionInfo> productionCountries = new ArrayList<>();
+
+
             for (int i = 0; i < production_countries.length(); i++)
             {
                 JSONObject country = production_countries.getJSONObject(i);
                 String countryName = country.getString("name");
-                countries[i] = countryName;
+                String countryCode = country.getString("iso_3166_1");
+                String imageURL = String.format(Locale.US, Statics.COUNTRY_IMAGES_TEMPLATE, countryCode, 32);
+
+                ProductionInfo info = new ProductionInfo(countryName, imageURL);
+                productionCountries.add(info);
             }
 
 
@@ -118,16 +125,23 @@ public class MovieDetailTask extends AsyncTask<Integer, Void, Void>
                     movieDetailActivity.get().getHomepageUrl().setText(homePageUrl);
 
 
-                    ListAdapter adapter = new ArrayAdapter<String>(
-                            movieDetailActivity.get().getBaseContext(), android.R.layout.simple_list_item_1, countries);
-                    movieDetailActivity.get().getProductionCountries().setAdapter(adapter);
+                    ListAdapter countriesAdapter = new ProductionAdapter(
+                            movieDetailActivity.get().getBaseContext(), productionCountries);
+                    movieDetailActivity.get().getProductionCountries().setAdapter(countriesAdapter);
                     ListviewHeightCalculator.setListViewHeightBasedOnItems(movieDetailActivity.get().getProductionCountries());
+//
+//
+//                    ProductionAdapter companiesAdapter = new ProductionAdapter(
+//                            movieDetailActivity.get().getBaseContext(), productionCompanies);
+//                    movieDetailActivity.get().getProductionCompanies().setAdapter(companiesAdapter);
+//                    ListviewHeightCalculator.setListViewHeightBasedOnItems(movieDetailActivity.get().getProductionCompanies());
 
+                    for (int i = 0; i < productionCompanies.size(); i++)
+                    {
+                        LinearLayout content = movieDetailActivity.get().createProductionItemLayout(productionCompanies.get(i).name, productionCompanies.get(i).imageURL);
+                        movieDetailActivity.get().getProductionComp().addView(content);
+                    }
 
-                    ProductionCompaniesAdapter companiesAdapter = new ProductionCompaniesAdapter(
-                            movieDetailActivity.get().getBaseContext(), productionCompanies);
-                    movieDetailActivity.get().getProductionCompanies().setAdapter(companiesAdapter);
-                    ListviewHeightCalculator.setListViewHeightBasedOnItems(movieDetailActivity.get().getProductionCompanies());
                 }
             });
         } catch (JSONException e)
@@ -137,5 +151,13 @@ public class MovieDetailTask extends AsyncTask<Integer, Void, Void>
 
 
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid)
+    {
+
+
+        super.onPostExecute(aVoid);
     }
 }
