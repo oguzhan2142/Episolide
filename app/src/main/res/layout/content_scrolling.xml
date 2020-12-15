@@ -136,13 +136,6 @@
                         app:autoSizeTextType="uniform" />
                 </LinearLayout>
 
-                <ImageButton
-                    android:id="@+id/expand_collection_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@null"
-                    android:src="@drawable/ic_baseline_arrow_drop_down_24" />
 
                 <HorizontalScrollView
                     android:id="@+id/collection_scrollview"
@@ -160,21 +153,50 @@
 
             </LinearLayout>
 
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/activity_vertical_margin"
+                android:background="@drawable/detail_section_background_shape">
+
+                <LinearLayout
+                    android:id="@+id/cast_linearlayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+
+
+            </HorizontalScrollView>
+
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/activity_vertical_margin"
+                android:background="@drawable/detail_section_background_shape">
+
+                <LinearLayout
+                    android:id="@+id/crew_linearlayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
             <LinearLayout
                 android:id="@+id/production_countries"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginVertical="10dp"
-                android:background="@drawable/detail_section_background_shape" />
+                android:background="@drawable/detail_section_background_shape"
+                android:orientation="vertical" />
 
 
             <LinearLayout
                 android:id="@+id/production_com"
-                android:background="@drawable/detail_section_background_shape"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="10dp"
+                android:background="@drawable/detail_section_background_shape"
                 android:orientation="vertical" />
 
 

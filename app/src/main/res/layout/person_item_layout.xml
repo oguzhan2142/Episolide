@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/person_item_image"
+        android:layout_width="90dp"
+        android:layout_height="110dp" />
+
+    <TextView
+        android:id="@+id/person_item_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="example person"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/person_item_character_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="as character person sdasdjasd"
+        android:ellipsize="middle"
+        android:singleLine="false"
+        android:textSize="12sp"
+        android:textStyle="italic" />
+</LinearLayout>

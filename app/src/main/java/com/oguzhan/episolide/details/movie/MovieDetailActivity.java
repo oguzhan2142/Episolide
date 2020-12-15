@@ -45,9 +45,12 @@ public class MovieDetailActivity extends AppCompatActivity
     private TextView collectionHeader;
     private ImageView collectionPoster;
     private TextView collectionOverview;
-    private ImageButton collectionExpandBtn;
-    private HorizontalScrollView collectionScrollview;
+
     private LinearLayout collectionScrolviewContainer;
+
+
+    private LinearLayout castContainer;
+    private LinearLayout crewContainer;
 
 
     @Override
@@ -72,12 +75,16 @@ public class MovieDetailActivity extends AppCompatActivity
         overview = findViewById(R.id.overview_text);
         homepageUrl = findViewById(R.id.homepage_url);
 
+        crewContainer = findViewById(R.id.crew_linearlayout);
+        castContainer = findViewById(R.id.cast_linearlayout);
+
         collectionHeader = findViewById(R.id.collection_header);
         collectionOverview = findViewById(R.id.collection_overview);
         collectionPoster = findViewById(R.id.collection_poster);
-        collectionScrollview = findViewById(R.id.collection_scrollview);
+
         collectionScrolviewContainer = findViewById(R.id.collection_scrollview_container);
-        collectionExpandBtn = findViewById(R.id.expand_collection_btn);
+
+
 
         String data = getIntent().getStringExtra(PlaceholderFragment.DETAIL_ACTIVITY_DATA_TAG);
 
@@ -95,6 +102,7 @@ public class MovieDetailActivity extends AppCompatActivity
 
             int id = jsonData.getInt("id");
             new MovieDetailTask(this).execute(id);
+            new MovieCreditsTask(this).execute(id);
 
 
             homepageUrl.setOnClickListener(new View.OnClickListener()
@@ -117,6 +125,20 @@ public class MovieDetailActivity extends AppCompatActivity
 
     }
 
+
+    public LinearLayout createPersonItemLayout(String name, String subtitle, String imageURL)
+    {
+        LinearLayout content = (LinearLayout) getLayoutInflater().inflate(R.layout.person_item_layout, null);
+
+        TextView nameText = content.findViewById(R.id.person_item_name);
+        TextView subtitleText = content.findViewById(R.id.person_item_character_name);
+        ImageView posterImage = content.findViewById(R.id.person_item_image);
+        nameText.setText(name);
+        subtitleText.setText(subtitle);
+        Picasso.get().load(imageURL).into(posterImage);
+        return content;
+
+    }
 
     public LinearLayout createProductionItemLayout(String name, String imageURL)
     {
@@ -247,5 +269,15 @@ public class MovieDetailActivity extends AppCompatActivity
     public LinearLayout getProductionCompanies()
     {
         return productionCompanies;
+    }
+
+    public LinearLayout getCastContainer()
+    {
+        return castContainer;
+    }
+
+    public LinearLayout getCrewContainer()
+    {
+        return crewContainer;
     }
 }
