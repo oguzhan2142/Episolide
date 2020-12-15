@@ -49,6 +49,11 @@ public class MovieDetailTask extends AsyncTask<Integer, Void, Void>
             JSONObject belongs_to_collection = root.getJSONObject("belongs_to_collection");
             String nameOfCollection = belongs_to_collection.getString("name");
             String posterPathOfCollection = belongs_to_collection.getString("poster_path");
+            int idOfCollection = belongs_to_collection.getInt("id");
+
+            new CollectionTask(movieDetailActivity.get()).execute(idOfCollection);
+
+
 //            String backdropPathOfCollection = belongs_to_collection.getString("backdrop_path");
             //
 

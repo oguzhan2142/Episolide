@@ -10,11 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -46,6 +51,12 @@ public class MovieDetailActivity extends AppCompatActivity
     private TextView homepageUrl;
 
 
+    private TextView collectionHeader;
+    private ImageView collectionPoster;
+    private TextView collectionOverview;
+    private ImageButton collectionExpandBtn;
+    private HorizontalScrollView collectionScrollview;
+    private LinearLayout collectionScrolviewContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -68,6 +79,13 @@ public class MovieDetailActivity extends AppCompatActivity
         productionCompanies = findViewById(R.id.production_companies);
         homepageUrl = findViewById(R.id.homepage_url);
 
+        collectionHeader = findViewById(R.id.collection_header);
+        collectionOverview = findViewById(R.id.collection_overview);
+        collectionPoster = findViewById(R.id.collection_poster);
+        collectionScrollview = findViewById(R.id.collection_scrollview);
+        collectionScrolviewContainer = findViewById(R.id.collection_scrollview_container);
+        collectionExpandBtn = findViewById(R.id.expand_collection_btn);
+
 
         String data = getIntent().getStringExtra(PlaceholderFragment.DETAIL_ACTIVITY_DATA_TAG);
         try
@@ -86,9 +104,6 @@ public class MovieDetailActivity extends AppCompatActivity
             new MovieDetailTask(this).execute(id);
 
 
-
-
-
             homepageUrl.setOnClickListener(new View.OnClickListener()
             {
                 @Override
@@ -99,12 +114,61 @@ public class MovieDetailActivity extends AppCompatActivity
                     startActivity(intent);
                 }
             });
+
+
         } catch (JSONException e)
         {
             e.printStackTrace();
         }
 
 
+    }
+
+
+    public void addContentToCollectionContainer(LinearLayout content)
+    {
+        collectionScrolviewContainer.addView(content);
+    }
+
+    public LinearLayout createScrollviewContent(String posterURL,String nameOfCollection ,String releaseDate)
+    {
+        LinearLayout linearLayout = new LinearLayout(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+
+        );
+
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setLayoutParams(layoutParams);
+
+        ImageView imageView = new ImageView(this);
+        LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(
+                (int) getResources().getDimension(R.dimen.card_width),
+                (int) getResources().getDimension(R.dimen.card_height)
+
+        );
+        imageView.setLayoutParams(param);
+        Picasso.get().load(posterURL).into(imageView);
+
+        TextView dateText = new TextView(this);
+        dateText.setText(releaseDate);
+        dateText.setGravity(Gravity.CENTER_HORIZONTAL);
+        dateText.setTextSize(12);
+
+        TextView nameText = new TextView(this);
+        nameText.setText(nameOfCollection);
+        nameText.setGravity(Gravity.CENTER_HORIZONTAL);
+        nameText.setTextSize(14);
+
+
+        linearLayout.addView(dateText);
+        linearLayout.addView(imageView);
+        linearLayout.addView(nameText);
+
+
+
+        return linearLayout;
     }
 
     @Override
@@ -158,5 +222,20 @@ public class MovieDetailActivity extends AppCompatActivity
     public TextView getHomepageUrl()
     {
         return homepageUrl;
+    }
+
+    public TextView getCollectionHeader()
+    {
+        return collectionHeader;
+    }
+
+    public ImageView getCollectionPoster()
+    {
+        return collectionPoster;
+    }
+
+    public TextView getCollectionOverview()
+    {
+        return collectionOverview;
     }
 }
