@@ -13,6 +13,6 @@
 
     <dimen name="person_credits_item_padding">5dp</dimen>
 
-    <dimen name="text_size">18sp</dimen>
+    <dimen name="text_size">15sp</dimen>
     <dimen name="text_header_size">22sp</dimen>
 </resources>

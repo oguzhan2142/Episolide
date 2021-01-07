@@ -19,19 +19,16 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
 
-public class CollectionTask extends AsyncTask<Integer, Void, Void>
-{
+public class CollectionTask extends AsyncTask<Integer, Void, Void> {
 
     private WeakReference<MovieDetailActivity> movieDetailActivity;
 
-    public CollectionTask(MovieDetailActivity movieDetailActivity)
-    {
+    public CollectionTask(MovieDetailActivity movieDetailActivity) {
         this.movieDetailActivity = new WeakReference<>(movieDetailActivity);
     }
 
     @Override
-    protected Void doInBackground(Integer... integers)
-    {
+    protected Void doInBackground(Integer... integers) {
 
         int id = integers[0];
 
@@ -40,25 +37,20 @@ public class CollectionTask extends AsyncTask<Integer, Void, Void>
 
         JSONObject root = JsonReader.readJsonFromUrl(url);
 
-        try
-        {
-            String nameOfCollection = root.getString("name");
+        try {
+//            String nameOfCollection = root.getString("name");
             String overview = root.getString("overview");
             String posterPath = root.getString("poster_path");
-            String backdropPath = root.getString("backdrop_path");
+//            String backdropPath = root.getString("backdrop_path");
 
             JSONArray parts = root.getJSONArray("parts");
 
-            new Handler(Looper.getMainLooper()).post(new Runnable()
-            {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     LinearLayout[] contents = new LinearLayout[parts.length()];
-                    for (int i = 0; i < parts.length(); i++)
-                    {
-                        try
-                        {
+                    for (int i = 0; i < parts.length(); i++) {
+                        try {
                             JSONObject part = parts.getJSONObject(i);
 
                             String title = part.getString("title");
@@ -66,30 +58,26 @@ public class CollectionTask extends AsyncTask<Integer, Void, Void>
                             String releaseDate = part.getString("release_date");
 
                             String URL = Statics.BASE_IMAGE_URL + Statics.POSTER_SIZES[1] + partPosterPath;
-                            LinearLayout content = movieDetailActivity.get().createScrollviewContent(
-                                    URL, title, Utils.ConvertDateAsFormatted(releaseDate));
+                            LinearLayout content = movieDetailActivity.get()
+                                    .createPersonItemLayout(title, releaseDate, URL);
                             contents[i] = content;
 
-                        } catch (JSONException e)
-                        {
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                     movieDetailActivity.get().getCollectionOverview().setText(overview);
-                    movieDetailActivity.get().getCollectionHeader().setText(nameOfCollection);
                     String posterURL = Statics.BASE_IMAGE_URL + Statics.POSTER_SIZES[1] + posterPath;
                     Picasso.get().load(posterURL).into(movieDetailActivity.get().getCollectionPoster());
 
-                    for (int i = 0; i < contents.length; i++)
-                    {
+                    for (int i = 0; i < contents.length; i++) {
                         movieDetailActivity.get().addContentToCollectionContainer(contents[i]);
                     }
                 }
             });
 
 
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 

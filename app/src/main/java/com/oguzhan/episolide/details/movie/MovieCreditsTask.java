@@ -1,6 +1,5 @@
 package com.oguzhan.episolide.details.movie;
 
-import android.bluetooth.le.ScanSettings;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,23 +15,20 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
 
-public class MovieCreditsTask extends AsyncTask<Integer, Void, Void>
-{
+public class MovieCreditsTask extends AsyncTask<Integer, Void, Void> {
 
     private WeakReference<MovieDetailActivity> movieDetailActivity;
     Info[] crewInfos;
     Info[] castInfos;
+    private final int MAX_TOP_CAST_AMOUNT = 9;
 
-
-    public MovieCreditsTask(MovieDetailActivity movieDetailActivity)
-    {
+    public MovieCreditsTask(MovieDetailActivity movieDetailActivity) {
         this.movieDetailActivity = new WeakReference<>(movieDetailActivity);
 
     }
 
     @Override
-    protected Void doInBackground(Integer... integers)
-    {
+    protected Void doInBackground(Integer... integers) {
 
         int id = integers[0];
         String url = String.format(Locale.US, Statics.MOVIE_CREDITS_TEMPLATE, id);
@@ -43,8 +39,7 @@ public class MovieCreditsTask extends AsyncTask<Integer, Void, Void>
             return null;
 
 
-        try
-        {
+        try {
 
             JSONArray castArray = root.getJSONArray("cast");
             JSONArray crewArray = root.getJSONArray("crew");
@@ -53,8 +48,7 @@ public class MovieCreditsTask extends AsyncTask<Integer, Void, Void>
             crewInfos = new Info[crewArray.length()];
             castInfos = new Info[castArray.length()];
 
-            for (int i = 0; i < crewArray.length(); i++)
-            {
+            for (int i = 0; i < crewArray.length(); i++) {
                 JSONObject crewJson = crewArray.getJSONObject(i);
 
                 String name = crewJson.getString("name");
@@ -68,8 +62,7 @@ public class MovieCreditsTask extends AsyncTask<Integer, Void, Void>
 
             }
 
-            for (int i = 0; i < castArray.length(); i++)
-            {
+            for (int i = 0; i < castArray.length(); i++) {
 
                 JSONObject cast = castArray.getJSONObject(i);
 
@@ -82,8 +75,7 @@ public class MovieCreditsTask extends AsyncTask<Integer, Void, Void>
 
             }
 
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -92,40 +84,33 @@ public class MovieCreditsTask extends AsyncTask<Integer, Void, Void>
     }
 
     @Override
-    protected void onPostExecute(Void aVoid)
-    {
+    protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
 
 
-        new Handler(Looper.getMainLooper()).post(new Runnable()
-        {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
-            public void run()
-            {
-                for (Info info : castInfos)
-                {
-                    LinearLayout content = movieDetailActivity.get().createPersonItemLayout(info.name, info.subtext, info.posterURL);
+            public void run() {
+
+                int topCastAmount = Math.min(castInfos.length, MAX_TOP_CAST_AMOUNT);
+                for (int i = 0; i < topCastAmount; i++) {
+                    Info info = castInfos[i];
+                    LinearLayout content = movieDetailActivity.get()
+                            .createPersonItemLayout(info.name, info.subtext, info.posterURL);
                     movieDetailActivity.get().getCastContainer().addView(content);
                 }
 
-                for (Info info : crewInfos)
-                {
-                    LinearLayout content = movieDetailActivity.get().createPersonItemLayout(info.name, info.subtext, info.posterURL);
-                    movieDetailActivity.get().getCrewContainer().addView(content);
-                }
             }
         });
 
     }
 
-    private static class Info
-    {
+    private static class Info {
         public String name;
         public String subtext;
         public String posterURL;
 
-        public Info(String name, String subtext, String posterURL)
-        {
+        public Info(String name, String subtext, String posterURL) {
             this.name = name;
             this.subtext = subtext;
             this.posterURL = posterURL;

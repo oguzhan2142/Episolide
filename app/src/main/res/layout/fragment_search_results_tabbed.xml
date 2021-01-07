@@ -20,7 +20,7 @@
             android:layout_weight="10"
             android:divider="@android:color/transparent"
             android:dividerHeight="10.0sp"
-            android:paddingHorizontal="60dp"/>
+            android:paddingHorizontal="60dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
