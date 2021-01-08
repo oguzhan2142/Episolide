@@ -138,6 +138,17 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
 
+    public LinearLayout createCollectionItemLayout(String year, String imageUrl) {
+        LinearLayout content = (LinearLayout) getLayoutInflater().inflate(R.layout.collection_item_layout, null);
+        TextView title = content.findViewById(R.id.title_textview);
+        ImageView posterImage = content.findViewById(R.id.collection_poster);
+
+        title.setText(year);
+        Picasso.get().load(imageUrl).into(posterImage);
+        return content;
+    }
+
+
     public LinearLayout createPersonItemLayout(String name, String subtitle, String imageURL) {
 
         LinearLayout content = (LinearLayout) getLayoutInflater().inflate(R.layout.person_item_layout, null);
@@ -167,7 +178,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         return linearLayout;
     }
 
-    public LinearLayout createListItemLayout(String name, String imageURL,int width, int height) {
+    public LinearLayout createListItemLayout(String name, String imageURL, int width, int height) {
         LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.production_listitem, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 10, 0, 10);

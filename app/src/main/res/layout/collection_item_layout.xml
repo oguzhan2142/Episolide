@@ -5,12 +5,12 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/person_item_image"
+        android:id="@+id/collection_poster"
         android:layout_width="90dp"
         android:layout_height="120dp" />
 
     <TextView
-        android:id="@+id/person_item_name"
+        android:id="@+id/title_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="3dp"
@@ -20,16 +20,4 @@
         android:textColor="@color/card_text"
         android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/person_item_character_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="as character person sdasdjasd"
-        android:textColor="@color/card_text"
-        android:fontFamily="@font/amaranth"
-        android:ellipsize="middle"
-        android:singleLine="true"
-        android:textSize="12sp"
-        android:textStyle="italic" />
 </LinearLayout>

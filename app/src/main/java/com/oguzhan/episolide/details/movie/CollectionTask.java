@@ -53,13 +53,12 @@ public class CollectionTask extends AsyncTask<Integer, Void, Void> {
                         try {
                             JSONObject part = parts.getJSONObject(i);
 
-                            String title = part.getString("title");
                             String partPosterPath = part.getString("poster_path");
                             String releaseDate = part.getString("release_date");
-
+                            String year = releaseDate.substring(0, 4);
                             String URL = Statics.BASE_IMAGE_URL + Statics.POSTER_SIZES[1] + partPosterPath;
                             LinearLayout content = movieDetailActivity.get()
-                                    .createPersonItemLayout(title, releaseDate, URL);
+                                    .createCollectionItemLayout(year, URL);
                             contents[i] = content;
 
                         } catch (JSONException e) {
