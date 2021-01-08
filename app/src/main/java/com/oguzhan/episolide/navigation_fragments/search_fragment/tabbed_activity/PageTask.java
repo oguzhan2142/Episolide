@@ -1,8 +1,7 @@
-package com.oguzhan.episolide.ui.tabbed_activity;
+package com.oguzhan.episolide.navigation_fragments.search_fragment.tabbed_activity;
 
 import android.os.AsyncTask;
 
-import com.oguzhan.episolide.ui.SearchResultsAdapter;
 import com.oguzhan.episolide.utils.JsonReader;
 
 import org.json.JSONArray;

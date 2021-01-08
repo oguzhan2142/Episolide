@@ -1,11 +1,10 @@
-package com.oguzhan.episolide.ui.search_fragment;
+package com.oguzhan.episolide.navigation_fragments.search_fragment;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.oguzhan.episolide.R;
-import com.oguzhan.episolide.SearchResultsTabbedActivity;
+import com.oguzhan.episolide.search_results.SearchResultsTabbedActivity;
 import com.oguzhan.episolide.utils.Keyboard;
 import com.oguzhan.episolide.utils.Statics;
 

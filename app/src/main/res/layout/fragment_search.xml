@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.search_fragment.SearchFragment">
+    tools:context=".navigation_fragments.search_fragment.SearchFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/resycle_view"
@@ -78,7 +78,10 @@
                 android:background="@drawable/search_btn_shape"
                 android:padding="8dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_baseline_search_24">
+                android:src="@drawable/ic_baseline_search_24"
+                android:tint="@color/card_text"
+
+                >
 
             </ImageButton>
         </LinearLayout>

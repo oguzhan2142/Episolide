@@ -1,4 +1,4 @@
-package com.oguzhan.episolide;
+package com.oguzhan.episolide.search_results;
 
 import java.util.Locale;
 

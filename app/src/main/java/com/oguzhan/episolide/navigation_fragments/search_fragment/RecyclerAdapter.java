@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.search_fragment;
+package com.oguzhan.episolide.navigation_fragments.search_fragment;
 
 import android.content.Context;
 import android.os.Build;

@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.tabbed_activity;
+package com.oguzhan.episolide.navigation_fragments.search_fragment.tabbed_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,10 +14,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.oguzhan.episolide.details.movie.MovieDetailActivity;
-import com.oguzhan.episolide.PageManager;
+import com.oguzhan.episolide.search_results.PageManager;
 import com.oguzhan.episolide.details.person.PersonDetailActivity;
 import com.oguzhan.episolide.R;
-import com.oguzhan.episolide.ui.SearchResultsAdapter;
 import com.oguzhan.episolide.utils.Statics;
 
 import org.jetbrains.annotations.NotNull;

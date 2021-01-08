@@ -14,9 +14,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.firebase.ui.auth.data.model.Resource;
 import com.oguzhan.episolide.R;
-import com.oguzhan.episolide.ui.tabbed_activity.PlaceholderFragment;
+import com.oguzhan.episolide.navigation_fragments.search_fragment.tabbed_activity.PlaceholderFragment;
 import com.oguzhan.episolide.utils.ExpandableTextView;
 import com.oguzhan.episolide.utils.Statics;
 import com.squareup.picasso.Picasso;

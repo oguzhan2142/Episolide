@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui;
+package com.oguzhan.episolide.navigation_fragments.search_fragment.tabbed_activity;
 
 import android.content.Context;
 import android.view.View;

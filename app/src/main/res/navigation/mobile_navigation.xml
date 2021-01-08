@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_search"
-        android:name="com.oguzhan.episolide.ui.search_fragment.SearchFragment"
+        android:name="com.oguzhan.episolide.navigation_fragments.search_fragment.SearchFragment"
         android:label="@string/title_search"
         tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_explore"
-        android:name="com.oguzhan.episolide.ui.explore_fragment.ExploreFragment"
+        android:name="com.oguzhan.episolide.navigation_fragments.explore_fragment.ExploreFragment"
         android:label="@string/title_explore"
         tools:layout="@layout/fragment_explore" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.oguzhan.episolide.ui.profile_fragment.ProfileFragment"
+        android:name="com.oguzhan.episolide.navigation_fragments.profile_fragment.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile" />
 </navigation>

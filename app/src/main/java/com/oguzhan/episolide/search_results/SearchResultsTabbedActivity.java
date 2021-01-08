@@ -1,4 +1,4 @@
-package com.oguzhan.episolide;
+package com.oguzhan.episolide.search_results;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.oguzhan.episolide.ui.tabbed_activity.SectionsPagerAdapter;
+import com.oguzhan.episolide.R;
 
 import java.util.Objects;
 

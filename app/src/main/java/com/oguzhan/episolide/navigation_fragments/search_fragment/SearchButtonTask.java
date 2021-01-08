@@ -1,8 +1,7 @@
-package com.oguzhan.episolide.ui.search_fragment;
+package com.oguzhan.episolide.navigation_fragments.search_fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -11,7 +10,6 @@ import com.oguzhan.episolide.utils.JsonReader;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
-import java.util.Objects;
 
 public class SearchButtonTask extends AsyncTask<String, Void, Void>
 {

@@ -20,7 +20,7 @@
             android:label="@string/title_activity_detail"
             android:theme="@style/Theme.Episolide.NoActionBar.NoActionBar" />
         <activity
-            android:name=".SearchResultsTabbedActivity"
+            android:name=".search_results.SearchResultsTabbedActivity"
             android:label="@string/title_activity_search_results_tabbed"
             android:theme="@style/Theme.Episolide.NoActionBar.NoActionBar" />
         <activity
@@ -41,7 +41,7 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".LoginFirebase" />
+        <activity android:name=".authentication.LoginFirebase" />
     </application>
 
 </manifest>

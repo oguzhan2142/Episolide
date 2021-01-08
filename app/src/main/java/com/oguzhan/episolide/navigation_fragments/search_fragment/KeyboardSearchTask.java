@@ -1,8 +1,7 @@
-package com.oguzhan.episolide.ui.search_fragment;
+package com.oguzhan.episolide.navigation_fragments.search_fragment;
 
 import android.os.AsyncTask;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;

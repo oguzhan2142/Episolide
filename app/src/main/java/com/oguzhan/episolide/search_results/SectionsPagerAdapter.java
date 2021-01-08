@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.ui.tabbed_activity;
+package com.oguzhan.episolide.search_results;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -10,18 +10,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.oguzhan.episolide.R;
+import com.oguzhan.episolide.navigation_fragments.search_fragment.tabbed_activity.PlaceholderFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Locale;
 
-/**
- * A [FragmentPagerAdapter] that returns a fragment corresponding to
- * one of the sections/tabs/pages.
- */
-public class SectionsPagerAdapter extends FragmentPagerAdapter
-{
+public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     private final int TAB_AMOUNT = 3;
 
@@ -32,8 +28,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter
     private String[] urls;
     private String[] datas;
 
-    public SectionsPagerAdapter(Context context, FragmentManager fm, Bundle bundle)
-    {
+    public SectionsPagerAdapter(Context context, FragmentManager fm, Bundle bundle) {
         super(fm);
         mContext = context;
         urls = bundle.getStringArray("urls");
@@ -42,8 +37,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter
     }
 
     @Override
-    public Fragment getItem(int position)
-    {
+    public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
         Bundle bundle = new Bundle();
@@ -55,20 +49,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter
 
     @Nullable
     @Override
-    public CharSequence getPageTitle(int position)
-    {
+    public CharSequence getPageTitle(int position) {
 
         String pureTitle = mContext.getResources().getString(TAB_TITLES[position]);
         String title = pureTitle;
 
-        try
-        {
+        try {
             JSONObject data = new JSONObject(datas[position]);
             int totalResults = data.getInt("total_results");
             title = String.format(Locale.US, "%s (%d)", pureTitle, totalResults);
 
-        } catch (JSONException e)
-        {
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
@@ -76,8 +67,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         // Show 2 total pages.
         return TAB_AMOUNT;
     }
