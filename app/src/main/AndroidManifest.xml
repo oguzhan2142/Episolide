@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Episolide.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".details.movie.WebActivity"></activity>
+        <activity android:name=".details.media.WebActivity"></activity>
         <activity android:name=".details.person.PersonDetailActivity" />
         <activity
-            android:name=".details.movie.MovieDetailActivity"
+            android:name=".details.media.MediaDetailActivity"
             android:label="@string/title_activity_detail"
             android:theme="@style/Theme.Episolide.NoActionBar.NoActionBar" />
         <activity

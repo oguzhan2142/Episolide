@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".details.movie.MovieDetailActivity">
+    tools:context=".details.media.MediaDetailActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -30,7 +30,7 @@
                 android:layout_height="match_parent">
 
                 <ImageView
-                    android:id="@+id/expandedImage"
+                    android:id="@+id/backdrop_imageview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
@@ -88,7 +88,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/amaranth"
-                            android:text="2019"
                             android:textColor="@color/card_text" />
 
                         <TextView
@@ -104,7 +103,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/amaranth"
-                            android:text="sci-fi, action"
                             android:textColor="@color/card_text" />
 
 

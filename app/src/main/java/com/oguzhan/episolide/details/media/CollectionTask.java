@@ -1,7 +1,5 @@
-package com.oguzhan.episolide.details.movie;
+package com.oguzhan.episolide.details.media;
 
-import android.graphics.Movie;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -9,7 +7,6 @@ import android.widget.LinearLayout;
 
 import com.oguzhan.episolide.utils.JsonReader;
 import com.oguzhan.episolide.utils.Statics;
-import com.oguzhan.episolide.utils.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -21,10 +18,10 @@ import java.util.Locale;
 
 public class CollectionTask extends AsyncTask<Integer, Void, Void> {
 
-    private WeakReference<MovieDetailActivity> movieDetailActivity;
+    private WeakReference<MediaDetailActivity> movieDetailActivity;
 
-    public CollectionTask(MovieDetailActivity movieDetailActivity) {
-        this.movieDetailActivity = new WeakReference<>(movieDetailActivity);
+    public CollectionTask(MediaDetailActivity mediaDetailActivity) {
+        this.movieDetailActivity = new WeakReference<>(mediaDetailActivity);
     }
 
     @Override
@@ -38,7 +35,7 @@ public class CollectionTask extends AsyncTask<Integer, Void, Void> {
         JSONObject root = JsonReader.readJsonFromUrl(url);
 
         try {
-//            String nameOfCollection = root.getString("name");
+            String nameOfCollection = root.getString("name");
             String overview = root.getString("overview");
             String posterPath = root.getString("poster_path");
 //            String backdropPath = root.getString("backdrop_path");
@@ -66,6 +63,7 @@ public class CollectionTask extends AsyncTask<Integer, Void, Void> {
                         }
                     }
                     movieDetailActivity.get().getCollectionOverview().setText(overview);
+                    movieDetailActivity.get().getCollectionNameTextview().setText(nameOfCollection);
                     String posterURL = Statics.BASE_IMAGE_URL + Statics.POSTER_SIZES[1] + posterPath;
                     Picasso.get().load(posterURL).into(movieDetailActivity.get().getCollectionPoster());
 

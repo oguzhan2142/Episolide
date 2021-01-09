@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.details.movie;
+package com.oguzhan.episolide.details.media;
 
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -15,15 +15,15 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
 
-public class MovieCreditsTask extends AsyncTask<Integer, Void, Void> {
+public class MediaCreditsTask extends AsyncTask<Integer, Void, Void> {
 
-    private WeakReference<MovieDetailActivity> movieDetailActivity;
+    private WeakReference<MediaDetailActivity> movieDetailActivity;
     Info[] crewInfos;
     Info[] castInfos;
     private final int MAX_TOP_CAST_AMOUNT = 9;
 
-    public MovieCreditsTask(MovieDetailActivity movieDetailActivity) {
-        this.movieDetailActivity = new WeakReference<>(movieDetailActivity);
+    public MediaCreditsTask(MediaDetailActivity mediaDetailActivity) {
+        this.movieDetailActivity = new WeakReference<>(mediaDetailActivity);
 
     }
 

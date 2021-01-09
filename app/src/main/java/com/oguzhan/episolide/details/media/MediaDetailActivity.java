@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.details.movie;
+package com.oguzhan.episolide.details.media;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,9 +23,13 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MediaDetailActivity extends AppCompatActivity
+{
 
     public static final String WEB_ACTIVITY_INTENT_TAG = "URL";
+    public static final String DETAIL_TYPE_TAG = "DETAIL_TYPE";
+    public static final String TV_TYPE_TAG = "TV_SHOW";
+    public static final String MOVIE_TYPE_TAG = "MOVIE";
 
 
     private ExpandableTextView overview;
@@ -53,9 +57,16 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView spokenLanguagesTextview;
     private TextView homepageTextview;
     private TextView collectionNameTextview;
+    private TextView genreTextview;
+    private TextView originalLanguageTextview;
+    private TextView numberOfEpisodeTextview;
+    private TextView numberOfSeasonTextview;
+    private TextView originCountriesTextview;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_movie);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detail_movie_activity);
@@ -63,20 +74,69 @@ public class MovieDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        initComponents();
+
+        String data = getIntent().getStringExtra(PlaceholderFragment.DETAIL_ACTIVITY_DATA_TAG);
+        final String DETAIL_TYPE = getIntent().getStringExtra(DETAIL_TYPE_TAG);
 
 
+        homepageTextview.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(homepageTextview.getText().toString()));
+                startActivity(i);
+            }
+        });
+
+        exploreMoreTextview.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Log.d("TAG", "onClick: Explore More");
+            }
+        });
+
+
+        try
+        {
+            JSONObject jsonData = new JSONObject(data);
+            String originalTitle = null;
+            if (jsonData.has("title"))
+                originalTitle = jsonData.getString("title");
+            else if (jsonData.has("name"))
+                originalTitle = jsonData.getString("name");
+            movieTitleTextView.setText(originalTitle);
+
+            String backdropPath = jsonData.getString("backdrop_path");
+            String backdropURL = Statics.BASE_IMAGE_URL + Statics.BACKDROP_SIZES[1] + backdropPath;
+            ImageView backdropImageView = findViewById(R.id.backdrop_imageview);
+            Picasso.get().load(backdropURL).into(backdropImageView);
+
+            int id = jsonData.getInt("id");
+            new MediaDetailTask(this, DETAIL_TYPE).execute(id);
+//            new MovieCreditsTask(this).execute(id);
+
+
+        } catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void initComponents()
+    {
         productionCountries = findViewById(R.id.production_countries);
-//        productionCompanies = findViewById(R.id.production_companies);
         productionCompanies = findViewById(R.id.production_com);
         overview = findViewById(R.id.overview_text);
-
-
         castContainer = findViewById(R.id.cast_linearlayout);
-
-
         collectionOverview = findViewById(R.id.collection_overview);
         collectionPoster = findViewById(R.id.collection_poster);
-
         collectionScrolviewContainer = findViewById(R.id.collection_scrollview_container);
         movieTitleTextView = findViewById(R.id.movie_name_text);
         yaerTextview = findViewById(R.id.year_text);
@@ -91,53 +151,16 @@ public class MovieDetailActivity extends AppCompatActivity {
         spokenLanguagesTextview = findViewById(R.id.spoken_language_textview);
         homepageTextview = findViewById(R.id.homepage_textview);
         collectionNameTextview = findViewById(R.id.collection_name_textview);
-
-        String data = getIntent().getStringExtra(PlaceholderFragment.DETAIL_ACTIVITY_DATA_TAG);
-
-        homepageTextview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(homepageTextview.getText().toString()));
-                startActivity(i);
-            }
-        });
-
-        exploreMoreTextview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("TAG", "onClick: Explore More");
-            }
-        });
-
-
-        try {
-            JSONObject jsonData = new JSONObject(data);
-
-
-            String originalTitle = jsonData.getString("title");
-
-            movieTitleTextView.setText(originalTitle);
-
-            String backdropPath = jsonData.getString("backdrop_path");
-            String backdropURL = Statics.BASE_IMAGE_URL + Statics.BACKDROP_SIZES[1] + backdropPath;
-            ImageView backdropImageView = findViewById(R.id.expandedImage);
-            Picasso.get().load(backdropURL).into(backdropImageView);
-
-            int id = jsonData.getInt("id");
-            new MovieDetailTask(this).execute(id);
-            new MovieCreditsTask(this).execute(id);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
+        genreTextview = findViewById(R.id.genre_text);
+        originalLanguageTextview = findViewById(R.id.original_language_textview);
+        numberOfEpisodeTextview = findViewById(R.id.number_of_episode_textview);
+        numberOfSeasonTextview = findViewById(R.id.number_of_season_textview);
+        originCountriesTextview = findViewById(R.id.origin_countries_textview);
     }
 
 
-    public LinearLayout createCollectionItemLayout(String year, String imageUrl) {
+    public LinearLayout createCollectionItemLayout(String year, String imageUrl)
+    {
         LinearLayout content = (LinearLayout) getLayoutInflater().inflate(R.layout.collection_item_layout, null);
         TextView title = content.findViewById(R.id.title_textview);
         ImageView posterImage = content.findViewById(R.id.collection_poster);
@@ -148,7 +171,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
 
-    public LinearLayout createPersonItemLayout(String name, String subtitle, String imageURL) {
+    public LinearLayout createPersonItemLayout(String name, String subtitle, String imageURL)
+    {
 
         LinearLayout content = (LinearLayout) getLayoutInflater().inflate(R.layout.person_item_layout, null);
         TextView nameText = content.findViewById(R.id.person_item_name);
@@ -162,7 +186,8 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     }
 
-    public LinearLayout createListItemLayout(String name, String imageURL) {
+    public LinearLayout createListItemLayout(String name, String imageURL)
+    {
         LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.production_listitem, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 10, 0, 10);
@@ -177,7 +202,8 @@ public class MovieDetailActivity extends AppCompatActivity {
         return linearLayout;
     }
 
-    public LinearLayout createListItemLayout(String name, String imageURL, int width, int height) {
+    public LinearLayout createListItemLayout(String name, String imageURL, int width, int height)
+    {
         LinearLayout linearLayout = (LinearLayout) getLayoutInflater().inflate(R.layout.production_listitem, null);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(0, 10, 0, 10);
@@ -194,19 +220,45 @@ public class MovieDetailActivity extends AppCompatActivity {
         return linearLayout;
     }
 
-    public void addContentToCollectionContainer(LinearLayout content) {
+
+    public void makeGoneTvOnlyProperties()
+    {
+        findViewById(R.id.number_of_episode_layout).setVisibility(View.GONE);
+        findViewById(R.id.number_of_season_layout).setVisibility(View.GONE);
+        findViewById(R.id.origin_countries_layout).setVisibility(View.GONE);
+    }
+
+
+    public void makeGoneProductionCompaniesLayout()
+    {
+        findViewById(R.id.production_companies_layout);
+    }
+
+    public void makeGoneMoviesOnlyProperties()
+    {
+        makeCollectionLayoutGone();
+        findViewById(R.id.revenue_parent_layout).setVisibility(View.GONE);
+        findViewById(R.id.budget_parent_layout).setVisibility(View.GONE);
+
+    }
+
+    public void addContentToCollectionContainer(LinearLayout content)
+    {
         collectionScrolviewContainer.addView(content);
     }
 
-    public void makeHomePageLayoutGone() {
+    public void makeHomePageLayoutGone()
+    {
         findViewById(R.id.homepage_layout).setVisibility(View.GONE);
     }
 
-    public void makeCollectionLayoutGone() {
+    public void makeCollectionLayoutGone()
+    {
         findViewById(R.id.belongs_to_collection_layout).setVisibility(View.GONE);
     }
 
-    public LinearLayout createScrollviewContent(String posterURL, String nameOfCollection, String releaseDate) {
+    public LinearLayout createScrollviewContent(String posterURL, String nameOfCollection, String releaseDate)
+    {
         LinearLayout linearLayout = new LinearLayout(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -246,80 +298,123 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp()
+    {
         onBackPressed();
         return true;
     }
 
 
-    public LinearLayout getProductionCountries() {
+    public LinearLayout getProductionCountries()
+    {
         return productionCountries;
     }
 
-    public ExpandableTextView getOverview() {
+    public ExpandableTextView getOverview()
+    {
         return overview;
     }
 
 
-    public ImageView getCollectionPoster() {
+    public ImageView getCollectionPoster()
+    {
         return collectionPoster;
     }
 
-    public TextView getCollectionOverview() {
+    public TextView getCollectionOverview()
+    {
         return collectionOverview;
     }
 
 
-    public LinearLayout getProductionCompanies() {
+    public LinearLayout getProductionCompanies()
+    {
         return productionCompanies;
     }
 
-    public LinearLayout getCastContainer() {
+    public LinearLayout getCastContainer()
+    {
         return castContainer;
     }
 
 
-    public TextView getRuntimeTextview() {
+    public TextView getRuntimeTextview()
+    {
         return runtimeTextview;
     }
 
-    public TextView getYaerTextview() {
+    public TextView getYaerTextview()
+    {
         return yaerTextview;
     }
 
-    public TextView getTaglineTextview() {
+    public TextView getTaglineTextview()
+    {
         return taglineTextview;
     }
 
-    public TextView getImdbTextview() {
+    public TextView getImdbTextview()
+    {
         return imdbTextview;
     }
 
-    public TextView getRevenueTextview() {
+    public TextView getRevenueTextview()
+    {
         return revenueTextview;
     }
 
-    public TextView getBudgetTextview() {
+    public TextView getBudgetTextview()
+    {
         return budgetTextview;
     }
 
-    public TextView getStatusTextview() {
+    public TextView getStatusTextview()
+    {
         return statusTextview;
     }
 
-    public TextView getVoteAverageTextview() {
+    public TextView getVoteAverageTextview()
+    {
         return voteAverageTextview;
     }
 
-    public TextView getSpokenLanguagesTextview() {
+    public TextView getSpokenLanguagesTextview()
+    {
         return spokenLanguagesTextview;
     }
 
-    public TextView getHomepageTextview() {
+    public TextView getHomepageTextview()
+    {
         return homepageTextview;
     }
 
-    public TextView getCollectionNameTextview() {
+    public TextView getCollectionNameTextview()
+    {
         return collectionNameTextview;
+    }
+
+    public TextView getGenreTextview()
+    {
+        return genreTextview;
+    }
+
+    public TextView getOriginalLanguageTextview()
+    {
+        return originalLanguageTextview;
+    }
+
+    public TextView getNumberOfEpisodeTextview()
+    {
+        return numberOfEpisodeTextview;
+    }
+
+    public TextView getNumberOfSeasonTextview()
+    {
+        return numberOfSeasonTextview;
+    }
+
+    public TextView getOriginCountriesTextview()
+    {
+        return originCountriesTextview;
     }
 }

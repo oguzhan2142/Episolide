@@ -1,13 +1,11 @@
-package com.oguzhan.episolide.details.movie;
+package com.oguzhan.episolide.details.media;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -57,7 +55,7 @@ public class WebActivity extends AppCompatActivity
         });
 
 
-        String url = getIntent().getStringExtra(MovieDetailActivity.WEB_ACTIVITY_INTENT_TAG);
+        String url = getIntent().getStringExtra(MediaDetailActivity.WEB_ACTIVITY_INTENT_TAG);
         webView.loadUrl(url);
     }
 

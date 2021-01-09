@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.oguzhan.episolide.details.movie.MovieDetailActivity;
+import com.oguzhan.episolide.details.media.MediaDetailActivity;
 import com.oguzhan.episolide.search_results.PageManager;
 import com.oguzhan.episolide.details.person.PersonDetailActivity;
 import com.oguzhan.episolide.R;
@@ -168,16 +168,18 @@ public class PlaceholderFragment extends Fragment
     private void goMovieDetailsActivity(JSONObject jsonObject)
     {
 
-        Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+        Intent intent = new Intent(getContext(), MediaDetailActivity.class);
         intent.putExtra(DETAIL_ACTIVITY_DATA_TAG, jsonObject.toString());
+        intent.putExtra(MediaDetailActivity.DETAIL_TYPE_TAG, MediaDetailActivity.MOVIE_TYPE_TAG);
         startActivity(intent);
     }
 
     private void goTvShowsDetailsActivity(JSONObject jsonObject)
     {
 
-        Intent intent = new Intent(getContext(), MovieDetailActivity.class);
+        Intent intent = new Intent(getContext(), MediaDetailActivity.class);
         intent.putExtra(DETAIL_ACTIVITY_DATA_TAG, jsonObject.toString());
+        intent.putExtra(MediaDetailActivity.DETAIL_TYPE_TAG, MediaDetailActivity.TV_TYPE_TAG);
         startActivity(intent);
 
     }

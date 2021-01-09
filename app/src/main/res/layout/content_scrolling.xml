@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#1E1D1C"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".details.movie.MovieDetailActivity"
+    tools:context=".details.media.MediaDetailActivity"
     tools:showIn="@layout/activity_detail_movie">
 
     <ScrollView
@@ -76,6 +76,62 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/amaranth_bold"
+                            android:text="Original Language:"
+                            android:textColor="@color/card_text"
+                            android:textSize="@dimen/text_size" />
+
+                        <TextView
+                            android:id="@+id/original_language_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/amaranth"
+                            android:text="Released"
+                            android:textColor="@color/card_text"
+                            android:textSize="@dimen/text_size" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/origin_countries_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/amaranth_bold"
+                            android:text="Origin Countries:"
+                            android:textColor="@color/card_text"
+                            android:textSize="@dimen/text_size" />
+
+                        <TextView
+                            android:id="@+id/origin_countries_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/amaranth"
+                            android:text=""
+                            android:textColor="@color/card_text"
+                            android:textSize="@dimen/text_size" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/amaranth_bold"
                             android:text="Vote Avarage:"
                             android:textColor="@color/card_text"
                             android:textSize="@dimen/text_size" />
@@ -95,6 +151,7 @@
 
 
                     <LinearLayout
+                        android:id="@+id/budget_parent_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -122,6 +179,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/revenue_parent_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -137,6 +195,63 @@
 
                         <TextView
                             android:id="@+id/revenue_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/amaranth"
+                            android:text="1.000.000$"
+                            android:textColor="@color/card_text"
+                            android:textSize="@dimen/text_size" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/number_of_season_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/amaranth_bold"
+                            android:text="Number of Season:"
+                            android:textColor="@color/card_text"
+                            android:textSize="@dimen/text_size" />
+
+                        <TextView
+                            android:id="@+id/number_of_season_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:fontFamily="@font/amaranth"
+                            android:text="1.000.000$"
+                            android:textColor="@color/card_text"
+                            android:textSize="@dimen/text_size" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/number_of_episode_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/amaranth_bold"
+                            android:text="Number of Episode:"
+                            android:textColor="@color/card_text"
+                            android:textSize="@dimen/text_size" />
+
+                        <TextView
+                            android:id="@+id/number_of_episode_textview"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
@@ -206,6 +321,7 @@
 
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -242,6 +358,7 @@
 
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -290,6 +407,7 @@
                 </HorizontalScrollView>
 
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -312,7 +430,9 @@
                     android:background="@drawable/detail_section_background_shape"
                     android:orientation="vertical" />
             </LinearLayout>
+
             <LinearLayout
+                android:id="@+id/production_companies_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="@dimen/activity_vertical_margin"
@@ -334,6 +454,7 @@
                     android:background="@drawable/detail_section_background_shape"
                     android:orientation="vertical" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/belongs_to_collection_layout"
                 android:layout_width="match_parent"

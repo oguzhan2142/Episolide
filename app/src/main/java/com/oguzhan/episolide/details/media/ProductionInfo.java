@@ -1,4 +1,4 @@
-package com.oguzhan.episolide.details.movie;
+package com.oguzhan.episolide.details.media;
 
 public class ProductionInfo
 {
